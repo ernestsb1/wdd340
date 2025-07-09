@@ -56,8 +56,8 @@ nav li:hover {
 
 .delorean {
   display: flex;
-  gap: -20px;
-      list-style: none;
+  gap: 15px;
+  list-style: none;
 
 
 }
@@ -65,17 +65,16 @@ nav li:hover {
 .delor {
   font-size: 1.5rem;
   list-style: none;
-  text-align: center;
   color: #007bff;
 }
 
 .vehicle-image {
-  width: 600px;
+  width: 500px;
 }
 
 h1 {
   font-size: 2.5rem;
-    padding-left: 20px;
+    padding-left: 10px;
 
 }
  
@@ -85,9 +84,8 @@ h1 {
   width: 200px;
   height: 40px;
   text-align: center;
-  margin-left: 25px;
-  padding-top: 5px;
   list-style: none;
+  padding-top: 5px;
 }
 .own {
   background-color: #22C4EC;
@@ -96,7 +94,7 @@ h1 {
 
 .upgrades {
   display: flex;
-  padding-left: 20px;
+  padding-left: 10px;
   gap: 60px;
 }
 
@@ -157,10 +155,10 @@ footer{
   }
 
   .siteName {
-    font-size: 1rem;
+    font-size: 0.7rem;
   }
   #tools {
-    font-size: 0.5rem;
+    font-size: 0.3rem;
   }
 
   nav {
@@ -173,20 +171,12 @@ footer{
   }
 
   .delorean {
-    display: block;
+     display: flex;
+    flex-direction: column;
+        width: 100%;
+
   }
   
-  .delor, .vehicle-image {
-    display: block;
-    width: 100%;
-  }
-  
-  .vehicle-image {
-    height: auto;
-    margin-top: 20px;
-  }
-
-
   .upgrades {
     display: flex;
     flex-direction: column;
@@ -198,16 +188,20 @@ footer{
     order: 2;
   }
 
+
   .upgradespix {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    
   }
+
 
   footer{
       background-color: #36454f;
-      font-size: 1rem;
+      font-size: 0.8rem;
       color: #fff;
       text-align: center;
+      height: 150px;
 
 }
 }

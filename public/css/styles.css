@@ -171,9 +171,9 @@ footer{
   }
  
   .delorean {
-  display: flex;
+  display: grid;
+   grid-template-columns: repeat(1, 1fr);
   gap: 5px;
-  width: 100%;
   list-style: none;
 
 }
@@ -192,7 +192,6 @@ footer{
   .upgradespix {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  align-items: start;
   gap: 10px;
 }
 

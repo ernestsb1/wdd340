@@ -169,14 +169,14 @@ footer{
     font-size: 1rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
-
+ 
   .delorean {
-     display: flex;
-    flex-direction: column;
-        width: 100%;
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  list-style: none;
 
-  }
-  
+}
   .upgrades {
     display: flex;
     flex-direction: column;
@@ -190,18 +190,17 @@ footer{
 
 
   .upgradespix {
-    display: flex;
-    flex-direction: column;
-    
-  }
-
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+  gap: 10px;
+}
 
   footer{
       background-color: #36454f;
       font-size: 0.8rem;
       color: #fff;
       text-align: center;
-      height: 150px;
 
 }
 }

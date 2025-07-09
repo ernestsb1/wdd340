@@ -4,3 +4,161 @@
 *:after {
   box-sizing: border-box;
 }
+#top-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1200px;
+}
+
+.siteName a{
+  font-size: 2rem;
+  text-decoration: none;
+  padding-left: 20px;
+
+}
+
+#tools a{
+  font-size: 1.5rem;
+  text-decoration: none;
+
+}
+nav {
+  
+  background-color: #36454f;
+  color: #fff;
+  padding: 1.3em;
+  text-align: center;
+  font-size: 1.3rem;
+  
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+nav li:last-child {
+  margin-right: 0;
+}
+
+nav li:hover {
+  color: #ccc;
+}
+
+.delorean {
+  display: flex;
+  gap: -20px;
+      list-style: none;
+
+
+}
+
+.delor {
+  font-size: 1.5rem;
+  list-style: none;
+  text-align: center;
+  color: #007bff;
+}
+
+.vehicle-image {
+  width: 600px;
+}
+
+h1 {
+  font-size: 2.5rem;
+    padding-left: 20px;
+
+}
+ 
+
+.own {
+  font-size: 1.5rem;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  margin-left: 25px;
+  padding-top: 5px;
+  list-style: none;
+}
+.own {
+  background-color: #22C4EC;
+  color: #fff;
+}
+
+.upgrades {
+  display: flex;
+  padding-left: 20px;
+  gap: 60px;
+}
+
+.upgradespix {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+  gap: 10px;
+}
+
+
+
+
+.img-item {
+  width: 300px;
+  background-color: #22C4EC;
+  text-align: center;
+  margin-top: 5px;
+  
+}
+
+
+figcaption {
+  margin-top: 5px;
+}
+
+
+h2 {
+margin-top: 20px;
+font-size: 1.5rem;
+}
+
+figcaption {
+  background-color: #fff;
+  text-decoration: underline;
+  color: #007bff;
+  font-size: 1.1rem;
+}
+
+.dmc ul li{
+  font-size: 1.5rem;
+}
+
+footer{
+      background-color: #36454f;
+      font-size: 1.3rem;
+      color: #fff;
+      text-align: center;
+
+}
+
+
+
+@media (max-width: 768px) {
+  .upgrades {
+    display: flex;
+    flex-direction: column;
+  }
+  .dmc {
+    order: 1;
+  }
+  .grid-container {
+    order: 2;
+  }
+}

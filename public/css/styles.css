@@ -151,6 +151,32 @@ footer{
 
 
 @media (max-width: 768px) {
+  #top-header {
+    display: flex;
+    gap: 10px;
+  }
+
+  .siteName {
+    font-size: 1.3rem;
+  }
+  #tools {
+    font-size: 0.8rem;
+  }
+
+  nav {
+    font-size: 0.7rem;
+  }
+
+  h1 {
+    font-size: 1.3;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+  }
+
+  .delorean {
+    width: 100%;
+  }
+
   .upgrades {
     display: flex;
     flex-direction: column;
@@ -160,5 +186,10 @@ footer{
   }
   .grid-container {
     order: 2;
+  }
+
+  .upgradespix {
+    width: 100%;
+    height: auto;
   }
 }

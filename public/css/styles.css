@@ -65,7 +65,7 @@ nav li:hover {
 .delor {
   font-size: 1.5rem;
   list-style: none;
-  color: #007bff;
+  color: #005152;
 }
 
 .vehicle-image {
@@ -88,7 +88,7 @@ h1 {
   padding-top: 5px;
 }
 .own {
-  background-color: #22C4EC;
+  background-color: #005152;
   color: #fff;
 }
 
@@ -110,7 +110,7 @@ h1 {
 
 .img-item {
   width: 300px;
-  background-color: #22C4EC;
+  background-color: #005152;
   text-align: center;
   margin-top: 5px;
   
@@ -128,7 +128,7 @@ font-size: 1.5rem;
 }
 
 figcaption {
-  background-color: #fff;
+  background-color: #ffffff;
   text-decoration: underline;
   color: #007bff;
   font-size: 1rem;

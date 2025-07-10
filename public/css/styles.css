@@ -155,10 +155,10 @@ footer{
   }
 
   .siteName {
-    font-size: 16px;
+    font-size: 14px;
   }
   #tools {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   nav {
@@ -171,28 +171,29 @@ footer{
   }
  .own {
   font-size: 1rem;
-  width: 150px;
+  width: 120px;
   height: 40px;
   padding: 0px;
+  padding-top: 5px;
+  text-align: center;
   
 }
   .delorean {
   display: flex;
   gap: 0px;
   list-style: none;
-  padding: 0px;
-
+  padding-left: 0px;
 }
 .delor {
   font-size: 1rem;
-  padding: 0px;
+  padding-left: 0px;
 }
 .dmc ul li{
   font-size: 1rem;
   padding: 0px;
 }
 .vehicle-image {
-  width: 130px;
+  width: 150px;
   height: auto;
 }
   .upgrades {

@@ -131,7 +131,7 @@ figcaption {
   background-color: #fff;
   text-decoration: underline;
   color: #007bff;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .dmc ul li{
@@ -166,20 +166,24 @@ footer{
   }
 
   h1 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
  
   .delorean {
-  display: grid;
-   grid-template-columns: repeat(1, 1fr);
-  gap: 5px;
+  display: flex;
+  gap: 0px;
   list-style: none;
 
+}
+.vehicle-image {
+  width: 130px;
+  height: auto;
 }
   .upgrades {
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
   .dmc {
     order: 1;
@@ -195,6 +199,13 @@ footer{
   gap: 10px;
 }
 
+.img-item {
+  width: 100px;
+  background-color: #22C4EC;
+  text-align: center;
+  margin-top: 5px;
+  
+}
   footer{
       background-color: #36454f;
       font-size: 0.8rem;

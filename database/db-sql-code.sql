@@ -1,5 +1,5 @@
 CREATE TYPE public.account_type AS ENUM
-    ('Client', 'Employee', 'Admin');
+    ('client', 'employee', 'admin');
 
 ALTER TYPE public.account_type
     OWNER TO wdd340;
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS public.inventory
 
 --Create relationship between 'classification' and 'inventory' tables
 ALTER TABLE IF EXISTS public.inventory
-    ADD CONTRAINT fk_classification FOREIGN KEY (classification_id)
+    ADD CONsTRAINT fk_classification FOREIGN KEY (classification_id)
 	REFERENCES public.classification (classification_id) MATCH SIMPLE
 	ON UPDATE CASCADE
 	ON DELETE NO ACTION;
@@ -46,8 +46,17 @@ CREATE TABLE IF NOT EXISTS public.account
     account_lastname character varying NOT NULL,
     account_email character varying NOT NULL,
     account_password character varying NOT NULL,
-    account_type account_type NOT NULL DEFAULT 'Client'::account_type,
+    account_type account_type NOT NULL DEFAULT 'client'::account_type,
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
 
+-- Query 4: Update the "GM Hummer" record
+UPDATE public.inventory
+SET inv_description = REPLACE(inv_description, 'small_interiors', 'a_huge_interior')
+WHERE inv_make = 'GM' AND inv_model = 'Hummer';
+
+-- Query 6: Update all records in the inventory table
+UPDATE public.inventory
+SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');

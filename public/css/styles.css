@@ -54,6 +54,14 @@ nav li:hover {
   color: #ccc;
 }
 
+nav a {
+  color: #fff; 
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #FFD700; 
+}
 .delorean {
   display: flex;
   gap: 15px;

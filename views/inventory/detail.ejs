@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="vehicle-detail">
+    <h1><%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %></h1>
+    <div class="vehicle-image">
+      <img src="<%= inventoryItem.inv_image %>" alt="<%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %>">
+    </div>
+    <div class="vehicle-info">
+      <h2>Vehicle Information</h2>
+      <p><strong>Make:</strong> <%= inventoryItem.inv_make %></p>
+      <p><strong>Model:</strong> <%= inventoryItem.inv_model %></p>
+      <p><strong>Year:</strong> <%= inventoryItem.inv_year %></p>
+      <p><strong>Price:</strong> $<%= inventoryItem.inv_price.toLocaleString() %></p>
+      <p><strong>Mileage:</strong> <%= inventoryItem.inv_miles.toLocaleString() %> miles</p>
+      <p><strong>Description:</strong> <%= inventoryItem.inv_description %></p>
+    </div>
+  </div>
+</body>
+</html>

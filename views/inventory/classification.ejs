@@ -1,0 +1,12 @@
+<!-- Content Heading Section: Displays the main heading for the page -->
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+
+        <!-- Message Section: Placeholder for future messages (currently commented out) -->
+        <%# messages() %>
+
+            <!-- Inventory Items Display Section: Shows the inventory grid -->
+            <%- grid %>

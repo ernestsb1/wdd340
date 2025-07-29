@@ -32,20 +32,15 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 
+const getInventoryItem = async (invId) => {
+  // query your database to retrieve the inventory item
+  const query = 'SELECT * FROM public.inventory WHERE inv_id = $1';
+  const result = await db.query(query, [invId]);
+  return result.rows[0];
+};
 
+module.exports = { getInventoryItem };
 
-
-async function 
-getInventoryItem(invId) {
-  try {
-    const data = await pool.query('SELECT * FROM inventory WHERE inv_id = $1', [invId])
-    return data.rows[0]
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-module.exports = { getInventoryItem }
 
 
 module.exports = { getClassifications, getInventoryByClassificationId };

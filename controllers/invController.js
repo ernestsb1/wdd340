@@ -1,5 +1,5 @@
 const invModel = require("../models/inventory-model")
-const utilities = require("../utilities/")
+const utilities = require('../utilities/index');
 
 const invCont = {}
 
@@ -21,21 +21,16 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
 
 
-
-
-
-
 invCont.buildInventoryDetail = async function(req, res) {
   try {
-    const invId = req.params.invId
-    const data = await invModel.getInventoryItem(invId)
-    res.render("inventory/detail", data)
+    const invId = req.params.invId;
+    const vehicle = await invModel.getInventoryItem(invId);
+    res.render('inventory/detail', { vehicle });
   } catch (error) {
-    console.error(error)
-    res.status(500).render("error", { error: "Failed to load vehicle details" })
+    console.error(error);
+    res.status(500).render('error', { message: 'Error retrieving inventory item details' });
   }
-}
-
+};
 
 
 module.exports = invCont

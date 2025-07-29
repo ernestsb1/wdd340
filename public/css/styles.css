@@ -238,3 +238,87 @@ footer{
 
 }
 }
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+}
+
+#inv-display li {
+  margin: 20px;
+  list-style: none;
+}
+
+#inv-display img {
+  width: 350px;
+  height: 170px;
+  object-fit: cover;
+    text-decoration: none;
+
+  
+}
+
+/* Custom vehicle images */
+a[href*="/inv/type/1"] img {
+  border: 2px solid #008000; /* Green border for Custom vehicles */
+}
+
+/* Truck vehicle images */
+a[href*="/inv/type/5"] img {
+  border: 2px solid #0000ff; /* Blue border for Truck vehicles */
+}
+
+/* Sedan vehicle images */
+a[href*="/inv/type/2"] img {
+  border: 2px solid #ff0000; /* Red border for Sedan vehicles */
+}
+
+/* Sports vehicle images */
+a[href*="/inv/type/3"] img {
+  border: 2px solid #ffff00; /* Yellow border for Sports vehicles */
+}
+
+/* SUV vehicle images */
+a[href*="/inv/type/4"] img {
+  border: 2px solid #008080; /* Teal border for SUV vehicles */
+}
+
+h1 {
+  text-align: center;
+}
+@media only screen and (max-width: 768px) {
+  .vehicle-detail {
+    flex-direction: column;
+  }
+  .vehicle-detail img {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  #inv-display img {
+    width: 200px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  #inv-display {
+    flex-direction: column;
+    align-items: center;
+  }
+  #inv-display li {
+    margin: 10px;
+  }
+  #inv-display img {
+    width: 150px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 320px) {
+  #inv-display img {
+    width: 100px;
+    height: 60px;
+  }
+}

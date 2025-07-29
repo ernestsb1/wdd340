@@ -25,7 +25,6 @@ Util.getNav = async function (req, res, next) {
     return list
 }
 
-module.exports = Util
 
 
 
@@ -81,3 +80,6 @@ exports.buildVehicleDetail = (vehicle) => {
     <p>Description: ${vehicle.inv_description}</p>
   `;
 };
+
+
+module.exports = Util

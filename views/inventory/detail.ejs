@@ -1,26 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %></title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="vehicle-detail">
-    <h1><%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %></h1>
-    <div class="vehicle-image">
-      <img src="<%= inventoryItem.inv_image %>" alt="<%= inventoryItem.inv_make %> <%= inventoryItem.inv_model %>">
+
+
+<ul id="inv-display">
+  <li>
+    <a href="../../inv/detail/26" title="View Mechanic Special details">
+      <img src="/images/vehicles/mechanic-tn.jpg" alt="Image of Mechanic Special on CSE Motors" />
+    </a>
+    <div class="inv-detail">
+      <h2>Mechanic Special</h2>
+      <p>Year: 1962</p>
+      <p>Make: Chevrolet</p>
+      <p>Model: Bel Air</p>
+      <p>Mileage: 100000</p>
+      <p>Price: $100</p>
     </div>
-    <div class="vehicle-info">
-      <h2>Vehicle Information</h2>
-      <p><strong>Make:</strong> <%= inventoryItem.inv_make %></p>
-      <p><strong>Model:</strong> <%= inventoryItem.inv_model %></p>
-      <p><strong>Year:</strong> <%= inventoryItem.inv_year %></p>
-      <p><strong>Price:</strong> $<%= inventoryItem.inv_price.toLocaleString() %></p>
-      <p><strong>Mileage:</strong> <%= inventoryItem.inv_miles.toLocaleString() %> miles</p>
-      <p><strong>Description:</strong> <%= inventoryItem.inv_description %></p>
+  </li>
+  <li>
+    <a href="../../inv/detail/27" title="View Ford Model T details">
+      <img src="/images/vehicles/model-t-tn.jpg" alt="Image of Ford Model T on CSE Motors" />
+    </a>
+    <div class="inv-detail">
+      <h2>Ford Model T</h2>
+      <p>Year: 1922</p>
+      <p>Make: Ford</p>
+      <p>Model: Model T</p>
+      <p>Mileage: 200000</p>
+      <p>Price: $30,000</p>
     </div>
-  </div>
-</body>
-</html>
+  </li>
+  <li>
+    <a href="../../inv/detail/30" title="View Ford Crown Victoria details">
+      <img src="/images/vehicles/crwn-vic-tn.jpg" alt="Image of Ford Crown Victoria on CSE Motors" />
+    </a>
+    <div class="inv-detail">
+      <h2>Ford Crown Victoria</h2>
+      <p>Year: 1998</p>
+      <p>Make: Ford</p>
+      <p>Model: Crown Victoria</p>
+      <p>Mileage: 150000</p>
+      <p>Price: $10,000</p>
+    </div>
+  </li>
+</ul>
+
+
+
+<ul id="inv-display">
+  <% vehicles.forEach(vehicle => { %>
+    <li>
+      <a href="../../inv/detail/<%= .inv_id %>" title="View <%= inv_make %> <%= inv_model %> details">
+        <img src="<%= vehicl.inv_image %>" alt="Image of <%= inv_make %> <%= inv_model %> on CSE Motors" />
+      </a>
+      <div class="inv-detail">
+        <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+        <p>Year: <%= vehicle.inv_year %></p>
+        <p>Make: <%= vehicle.inv_make %></p>
+        <p>Model: <%= vehicle.inv_model %></p>
+        <p>Mileage: <%= vehicle.inv_mileage %></p>
+        <p>Price: $<%= vehicle.inv_price %></p>
+      </div>
+    </li>
+  <% }); %>
+</ul>

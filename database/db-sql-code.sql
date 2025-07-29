@@ -2,7 +2,7 @@ CREATE TYPE public.account_type AS ENUM
     ('client', 'employee', 'admin');
 
 ALTER TYPE public.account_type
-    OWNER TO wdd340;
+    OWNER TO wdd340sb;
 
     --Table struction for table 'classification'
 CREATE TABLE public.classification (
@@ -61,21 +61,15 @@ UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
 
-INSERT INTO public.classification (classification_name) VALUES ('Custom'),  ('SUV'), ('Sedan'),('Truck');
-
-
-DELETE FROM public.classification;
-
-
-INSERT INTO public.classification (classification_name) VALUES ('Custom'), ('Sedan'), ('Sports'), ('SUV'), ('Truck');
-
-
-DELETE FROM public.classification;
-ALTER SEQUENCE public.classification_classification_id_seq RESTART WITH 1;
-INSERT INTO public.classification (classification_name) VALUES ('Custom'), ('Sedan'), ('Sports'), ('SUV'), ('Truck');
-
-
-
+-- Data for table 'classification'
+INSERT INTO public.classification (classification_name)
+VALUES
+    ('Custom'),
+    ('Sport'),
+    ('SUV'),
+    ('Truck'),
+    ('Sedan');
+    
 
 
 -- Data for table `inventory`

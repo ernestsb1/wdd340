@@ -2,7 +2,7 @@ CREATE TYPE public.account_type AS ENUM
     ('client', 'employee', 'admin');
 
 ALTER TYPE public.account_type
-    OWNER TO wdd340sb;
+    OWNER TO wdd340don;
 
     --Table struction for table 'classification'
 CREATE TABLE public.classification (
@@ -51,15 +51,6 @@ CREATE TABLE IF NOT EXISTS public.account
 );
 
 
--- Query 4: Update the "GM Hummer" record
-UPDATE public.inventory
-SET inv_description = REPLACE(inv_description, 'small_interiors', 'a_huge_interior')
-WHERE inv_make = 'GM' AND inv_model = 'Hummer';
-
--- Query 6: Update all records in the inventory table
-UPDATE public.inventory
-SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
 
 -- Data for table 'classification'
 INSERT INTO public.classification (classification_name)
@@ -253,3 +244,13 @@ VALUES   (
     'White',
     5
   );
+
+  -- Query 4: Update the "GM Hummer" record
+UPDATE public.inventory
+SET inv_description = REPLACE(inv_description, 'small_interiors', 'a_huge_interior')
+WHERE inv_make = 'GM' AND inv_model = 'Hummer';
+
+-- Query 6: Update all records in the inventory table
+UPDATE public.inventory
+SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');

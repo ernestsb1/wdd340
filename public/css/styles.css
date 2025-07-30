@@ -154,6 +154,74 @@ footer{
 
 }
 
+/* Vehicle Detail Section */
+.vehicle-detail {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.vehicle-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Image styling */
+.vehicle-image {
+  flex: 1 1 350px;
+  text-align: center;
+}
+
+.vehicle-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Details styling */
+.vehicle-info {
+  flex: 1 1 350px;
+}
+
+.vehicle-info h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.vehicle-info p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .vehicle-container {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .vehicle-info h2 {
+    text-align: center;
+  }
+
+  .vehicle-image, .vehicle-info {
+    flex: 1 1 100%;
+  }
+}
+
+
 
 
 @media (max-width: 768px) {
@@ -258,30 +326,7 @@ footer{
   
 }
 
-/* Custom vehicle images */
-a[href*="/inv/type/1"] img {
-  border: 2px solid #008000; /* Green border for Custom vehicles */
-}
 
-/* Truck vehicle images */
-a[href*="/inv/type/5"] img {
-  border: 2px solid #0000ff; /* Blue border for Truck vehicles */
-}
-
-/* Sedan vehicle images */
-a[href*="/inv/type/2"] img {
-  border: 2px solid #ff0000; /* Red border for Sedan vehicles */
-}
-
-/* Sports vehicle images */
-a[href*="/inv/type/3"] img {
-  border: 2px solid #ffff00; /* Yellow border for Sports vehicles */
-}
-
-/* SUV vehicle images */
-a[href*="/inv/type/4"] img {
-  border: 2px solid #008080; /* Teal border for SUV vehicles */
-}
 
 h1 {
   text-align: center;
@@ -290,10 +335,16 @@ h1 {
   .vehicle-detail {
     flex-direction: column;
   }
-  .vehicle-detail img {
-    width: 100%;
-    height: auto;
-  }
+  
+a[href*="/inv/type/1"] img {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+
+}
+h1 {
+  font-size: 1rem;
+}
 }
 @media (max-width: 768px) {
   #inv-display img {

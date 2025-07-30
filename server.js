@@ -1,52 +1,73 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
-/* ***********************
- * Require Statements
- *************************/
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute") 
+/******************************************
+ * server.js - Main entry point for the app
+ ******************************************/
 
-/* ***********************
- * View Engine and Templates
- *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
-app.use(express.static('public'))
-app.use(inventoryRoute);
+/* =======================
+ *  Module Imports
+ ======================= */
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+require("dotenv").config();
+const app = express();
 
+/* =======================
+ * Custom Module Imports
+ ======================= */
+const errorHandler = require("./utilities/errorHandler");
+const staticRoutes = require("./routes/static");
+const baseController = require("./controllers/baseController");
+const inventoryRoute = require("./routes/inventoryRoute");
 
+//  testRoute if it exists
+let testRoute;
+try {
+  testRoute = require("./routes/testRoute");
+} catch (err) {
+  console.warn("Optional route 'testRoute' not found. Skipping...");
+}
 
-/* ***********************
- * Routes
- *************************/
-app.use(static)
+/* =======================
+ *  App Configuration
+ ======================= */
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "./layouts/layout"); // Relative to views/
+app.use(express.static("public"));     // Serve static assets
 
+/* =======================
+ * 4. Routing
+ ======================= */
 
-// Index route
-app.get("/", baseController.buildHome)
+app.get("/", baseController.buildHome);
 
+// Mount other routes
+app.use("/", staticRoutes);
+app.use("/inv", inventoryRoute);
 
-// Inventory routes
-app.use("/inv", inventoryRoute)
+// Use testRoute if it was found
+if (testRoute) {
+  app.use("/", testRoute);
+}
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+/* =======================
+ *  Error Handling
+ ======================= */
+// 404 Not Found Handler
+app.use((req, res, next) => {
+  const err = new Error("Page Not Found");
+  err.status = 404;
+  next(err);
+});
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
+// Global Error Handler
+app.use(errorHandler);
+
+/* =======================
+ *  Start Server
+ ======================= */
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || "localhost";
+
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+  console.log(`App listening on http://${host}:${port}`);
+});

@@ -13,18 +13,13 @@ const app = express();
 /* =======================
  * Custom Module Imports
  ======================= */
+ const testRoutes = require('./routes/testRoutes');
 const errorHandler = require("./utilities/errorHandler");
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 
-//  testRoute if it exists
-let testRoute;
-try {
-  testRoute = require("./routes/testRoute");
-} catch (err) {
-  console.warn("Optional route 'testRoute' not found. Skipping...");
-}
+
 
 /* =======================
  *  App Configuration
@@ -41,13 +36,10 @@ app.use(express.static("public"));     // Serve static assets
 app.get("/", baseController.buildHome);
 
 // Mount other routes
-app.use("/", staticRoutes);
 app.use("/inv", inventoryRoute);
+app.use("/", staticRoutes);
+app.use('/', testRoutes); 
 
-// Use testRoute if it was found
-if (testRoute) {
-  app.use("/", testRoute);
-}
 
 /* =======================
  *  Error Handling

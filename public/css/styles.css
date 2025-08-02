@@ -147,11 +147,21 @@ figcaption {
 }
 
 footer{
-      background-color: #36454f;
+      background-color:  #36454f;
       font-size: 1.3rem;
-      color: #fff;
+      color: #ffffff;
       text-align: center;
 
+}
+footer a {
+  color: #ffffff !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer a:hover {
+  color: #FFD700; /* Gold/yellow on dark background */
+  text-decoration: underline;
 }
 #inv-display {
   display: grid;
@@ -168,7 +178,6 @@ footer{
   width: 350px;
   height: 170px;
   object-fit: cover;
-    text-decoration: none;
 }
 
 /* Vehicle Detail Section */
@@ -222,6 +231,9 @@ footer{
   color: #444;
 }
 
+
+
+
 /* Responsive for smaller screens */
 @media (max-width: 768px) {
   .vehicle-container {
@@ -248,7 +260,6 @@ footer{
   width: 250px;
   height: 130px;
   object-fit: cover;
-    text-decoration: none;
 }
 }
 

@@ -1,9 +1,11 @@
-function handleErrors(err, req, res, next) {
-  console.error(err.stack);
-  res.status(err.status || 500).render("error", {
-    title: err.status === 404 ? "404 Not Found" : "Server Error",
-    message: err.message || "Something went wrong"
+function errorHandler(err, req, res, next) {
+  const status = err.status || 500;
+  res.status(status).render("error", {
+    title: "Error",
+    message: err.message,
+    status: status,
+    nav: ""
   });
 }
 
-module.exports = handleErrors;
+module.exports = errorHandler;

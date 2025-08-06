@@ -4,39 +4,41 @@
 *:after {
   box-sizing: border-box;
 }
+
 #top-header {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1200px;
 }
 
-.siteName a{
+.siteName a {
   font-size: 2rem;
   text-decoration: none;
   padding-left: 20px;
 
 }
 
-#tools a{
+#tools a {
   font-size: 1.5rem;
   text-decoration: none;
 
 }
+
 nav {
-  
+
   background-color: #36454f;
   color: #fff;
   padding: 1.3em;
   text-align: center;
   font-size: 1.3rem;
-  
+
 }
 
 nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  
+
 }
 
 nav li {
@@ -55,19 +57,32 @@ nav li:hover {
 }
 
 nav a {
-  color: #fff; 
+  color: #fff;
   text-decoration: none;
 }
 
 nav a:hover {
-  color: #FFD700; 
+  color: #FFD700;
 }
+
 .delorean {
   display: flex;
-  gap: 15px;
+  gap: 5px;
   list-style: none;
 
 
+}
+
+.flash-message {
+  font-size: 1.5em;
+  color: #a80000;
+  list-style-type: none;
+}
+
+.vehicle-imagem {
+  width: 500px;
+  height: auto;
+  margin: 20px auto;
 }
 
 .delor {
@@ -82,10 +97,10 @@ nav a:hover {
 
 h1 {
   font-size: 2.5rem;
-    padding-left: 10px;
+  padding-left: 10px;
 
 }
- 
+
 
 .own {
   font-size: 1.5rem;
@@ -95,6 +110,7 @@ h1 {
   list-style: none;
   padding-top: 5px;
 }
+
 .own {
   background-color: #005152;
   color: #fff;
@@ -121,7 +137,7 @@ h1 {
   background-color: #005152;
   text-align: center;
   margin-top: 5px;
-  
+
 }
 
 
@@ -131,8 +147,8 @@ figcaption {
 
 
 h2 {
-margin-top: 20px;
-font-size: 1.5rem;
+  margin-top: 20px;
+  font-size: 1.5rem;
 }
 
 figcaption {
@@ -142,17 +158,18 @@ figcaption {
   font-size: 1rem;
 }
 
-.dmc ul li{
+.dmc ul li {
   font-size: 1.5rem;
 }
 
-footer{
-      background-color:  #36454f;
-      font-size: 1.3rem;
-      color: #ffffff;
-      text-align: center;
+footer {
+  background-color: #36454f;
+  font-size: 1.3rem;
+  color: #ffffff;
+  text-align: center;
 
 }
+
 footer a {
   color: #ffffff !important;
   text-decoration: none;
@@ -160,9 +177,11 @@ footer a {
 }
 
 footer a:hover {
-  color: #FFD700; /* Gold/yellow on dark background */
+  color: #FFD700;
+  /* Gold/yellow on dark background */
   text-decoration: underline;
 }
+
 #inv-display {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -245,22 +264,26 @@ footer a:hover {
     text-align: center;
   }
 
-  .vehicle-image, .vehicle-info {
+  .vehicle-image,
+  .vehicle-info {
     flex: 1 1 100%;
   }
+
   .vehicle-info h2 {
-  font-size: 1rem;
-}
-#inv-display {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-}
-#inv-display img {
-  width: 250px;
-  height: 130px;
-  object-fit: cover;
-}
+    font-size: 1rem;
+  }
+
+  #inv-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  #inv-display img {
+    width: 250px;
+    height: 130px;
+    object-fit: cover;
+  }
 }
 
 
@@ -274,6 +297,7 @@ footer a:hover {
   .siteName {
     font-size: 14px;
   }
+
   #tools {
     font-size: 11px;
   }
@@ -286,66 +310,75 @@ footer a:hover {
     font-size: 1.2rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
- .own {
-  font-size: 1rem;
-  width: 120px;
-  height: 40px;
-  padding: 0px;
-  padding-top: 5px;
-  text-align: center;
-  
-}
+
+  .own {
+    font-size: 1rem;
+    width: 120px;
+    height: 40px;
+    padding: 0px;
+    padding-top: 5px;
+    text-align: center;
+
+  }
+
   .delorean {
-  display: flex;
-  gap: 0px;
-  list-style: none;
-  padding-left: 0px;
-}
-.delor {
-  font-size: 1rem;
-  padding-left: 0px;
-}
-.dmc ul li{
-  font-size: 1rem;
-  padding: 0px;
-}
-.vehicle-image {
-  width: 150px;
-  height: auto;
-}
+    display: flex;
+    gap: 0px;
+    list-style: none;
+    padding-left: 0px;
+  }
+
+  .delor {
+    font-size: 1rem;
+    padding-left: 0px;
+  }
+
+  .dmc ul li {
+    font-size: 1rem;
+    padding: 0px;
+  }
+
+  .vehicle-imagem {
+    width: 150px;
+    height: auto;
+  }
+
   .upgrades {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
+
   .dmc {
     order: 1;
   }
+
   .grid-container {
     order: 2;
   }
 
 
   .upgradespix {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-}
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
 
-.img-item {
-  width: 150px;
-  background-color: #22C4EC;
-  text-align: center;
-  margin-top: 5px;
-  
-}
-  footer{
-      background-color: #36454f;
-      font-size: 0.8rem;
-      color: #fff;
-      text-align: center;
+  .img-item {
+    width: 150px;
+    background-color: #22C4EC;
+    text-align: center;
+    margin-top: 5px;
 
-}
+  }
+
+  footer {
+    background-color: #36454f;
+    font-size: 0.8rem;
+    color: #fff;
+    text-align: center;
+
+  }
 }
 
 
@@ -355,21 +388,24 @@ footer a:hover {
 h1 {
   text-align: center;
 }
+
 @media only screen and (max-width: 768px) {
   .vehicle-detail {
     flex-direction: column;
   }
-  
-a[href*="/inv/type/1"] img {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
 
+  a[href*="/inv/type/1"] img {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
 }
-h1 {
-  font-size: 1rem;
-}
-}
+
 @media (max-width: 768px) {
   #inv-display img {
     width: 200px;
@@ -382,9 +418,11 @@ h1 {
     flex-direction: column;
     align-items: center;
   }
+
   #inv-display li {
     margin: 10px;
   }
+
   #inv-display img {
     width: 150px;
     height: 90px;
@@ -397,3 +435,186 @@ h1 {
     height: 60px;
   }
 }
+
+.d-main {
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  /* center horizontally */
+  align-items: center;
+  /* center vertically */
+  height: auto;
+  background-color: #32CD32;
+  /* or any background you want */
+  flex-direction: column;
+  /* stack heading + box */
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-box {
+  width: 600px;
+  background-color: #24344d;
+  /* dark blue-gray */
+  padding: 30px 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 100px auto;
+  text-align: center;
+  color: white;
+}
+
+.login-box {
+  margin-bottom: 50px;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+}
+
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+.login-box button {
+  padding: 10px 20px;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.login-box .signup {
+  margin-top: 15px;
+  font-size: 14px;
+  color: white;
+}
+
+.login-box .signup-link a {
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+.signup-link {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #f0f8ff;
+  text-decoration: none;
+}
+
+
+.d-main {
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  background-color: #32CD32;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-box {
+  width: 600px;
+  background-color: #24344d;
+  padding: 30px 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 100px auto;
+  text-align: center;
+  color: white;
+}
+
+.register-box {
+  margin-bottom: 50px;
+}
+
+.register-box h2 {
+  margin-bottom: 20px;
+}
+
+.register-box label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.register-box input[type="text"],
+.register-box input[type="email"],
+.register-box input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+.required {
+  color: #ff6961;
+  margin-left: 4px;
+}
+
+.password-rules {
+  font-size: 13px;
+  color: #dddddd;
+  text-align: left;
+  margin: 0 0 15px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.register-box button {
+  padding: 10px 20px;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.validation-errors {
+  background-color: #ffe0e0;
+  color: #a30000;
+  border: 1px solid #ff9999;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  max-width: 500px;
+}
+
+.validation-errors ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.validation-errors li {
+  margin-bottom: 5px;
+}
+
+

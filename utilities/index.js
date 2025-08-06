@@ -106,5 +106,20 @@ Util.buildVehicleDetail = function (vehicle) {
   `;
 };
 
+// Error-handling wrapper for async controller functions
+function handleErrors(fn) {
+  return function (req, res, next) {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+}
+Util.handleErrors = handleErrors;
+
+  // add any other functions like getNav here if needed
+
+
+
+
+
 // Export the entire Util object
 module.exports = Util;
+

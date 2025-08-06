@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <main>
+    <h1>
+      <%= title %>
+    </h1>
+    <% if (messages && messages.notice) { %>
+      <% messages.notice.forEach(function(msg) { %>
+        <div class="flash-message">
+          <%= msg %>
+        </div>
+        <% }); %>
+          <% } %>
+
+<% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+
+          <div class="validation-errors">
+                    <ul class="notice">
+<% errors.forEach(error=> { %>
+      <% if (error.msg !=="Invalid value" ) { %> <!-- filter out generic -->
+               <li>
+                 <%= error.msg %>
+              </li>
+               <% } %>
+                   <% }) %>
+                    </ul>
+                     </div>
+                    <% } %>
+
+            <div class="d-main">
+
+              <!-- Login Form -->
+              <div class="login-box">                      
+              <form id="loginForm" action="/account/login" method="post">
+                  
+                  <label for="account_email">Email</label>
+                <input type="email" name="account_email" id="account_email" required value="<%= account_email %>">
+
+                  <label for="account_password">Password</label>
+                  <input type="password" id="account_password" name="account_password" required
+                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+
+                  <button type="submit">LOGIN</button>
+                </form>
+                <div>
+                  <p>Don't have an account? <a href="/account/register" class="signup-link"> Sign-up</a></p>
+                </div>
+              </div>
+  </main>
+</body>
+
+</html>

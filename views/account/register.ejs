@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+        <% if (messages && messages.notice) { %>
+            <div class="flash-message">
+                <%= messages.notice %>
+            </div>
+            <% } %>
+
+                <% if (errors && errors.length> 0) { %>
+                     <div class="validation-errors">
+                    <ul class="notice">
+<% errors.forEach(error=> { %>
+      <% if (error.msg !=="Invalid value" ) { %> <!-- filter out generic -->
+               <li>
+                 <%= error.msg %>
+              </li>
+               <% } %>
+                   <% }) %>
+                    </ul>
+                     </div>
+                    <% } %>
+
+
+
+              <div class="d-main">
+
+                            <!-- Login Form -->
+               <div class="register-box">
+             <form action="/account/register" method="post">
+
+    <label for="account_firstname">First Name</label>
+    <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>">
+
+  <label for="account_lastname">Last Name</label>
+  <input type="text" name="account_lastname" id="account_lastname" required value="<%= locals.account_lastname %>">
+
+           <label for="account_email">Email</label>
+<input type="email" name="account_email" id="account_email" required value="<%= locals.account_email %>">
+
+   <label for="account_password">Password</label>
+  <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+    <label><input type="checkbox" id="togglePassword"> Show Password</label>
+<script>
+  const toggle = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("account_password");
+
+  toggle.addEventListener("change", function () {
+    passwordInput.type = this.checked ? "text" : "password";
+  });
+</script>
+                                    <ul class="password-rules">
+                                        <li>At least 12 characters</li>
+                                        <li>At least 1 capital letter</li>
+                                        <li>At least 1 number</li>
+                                        <li>At least 1 special character</li>
+                                    </ul>
+
+                                    <button type="submit">REGISTER</button>
+                                </form>
+                                <div>
+                                </div>
+
+    </main>
+</body>
+
+</html>

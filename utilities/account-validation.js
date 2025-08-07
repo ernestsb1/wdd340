@@ -102,4 +102,47 @@ validate.checkLoginData = async (req, res, next) => {
   next();
 };
 
+
+validate.classificationName = (req, res, next) => {
+  const name = req.body.classification_name;
+  const errors = [];
+  if (!name || !/^[A-Za-z0-9]+$/.test(name)) {
+    errors.push('Classification name must contain only letters and digits (no spaces/special).');
+  }
+  if (errors.length) {
+    req.flash('errors', errors);
+    return res.redirect('/inv/add-classification');
+  }
+  next();
+};
+
+validate.inventoryFields = (req, res, next) => {
+  const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body;
+  const errors = [];
+  if (!inv_make || !inv_model || !inv_description || !inv_color) {
+    errors.push('All text fields required.');
+  }
+  if (!inv_year || inv_year < 1900 || inv_year > new Date().getFullYear()) {
+    errors.push('Year must be realistic.');
+  }
+  if (!inv_price || inv_price <= 0) {
+    errors.push('Price must be positive.');
+  }
+  if (!inv_miles || inv_miles < 0) {
+    errors.push('Miles cannot be negative.');
+  }
+  if (!classification_id) {
+    errors.push('You must select a classification.');
+  }
+  if (errors.length) {
+    req.flash('errors', errors);
+    req.flash('body', req.body);
+    return res.redirect('/inv/add-inventory');
+  }
+  next();
+};
+
+
+
+
 module.exports = validate;

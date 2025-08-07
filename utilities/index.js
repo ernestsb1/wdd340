@@ -114,8 +114,30 @@ function handleErrors(fn) {
 }
 Util.handleErrors = handleErrors;
 
-  // add any other functions like getNav here if needed
 
+
+
+exports.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications();
+  let list = `<select name="classification_id" id="classificationList" required>
+      <option value=''>Choose a Classification</option>`;
+  data.rows.forEach((row) => {
+    list += `<option value="${row.classification_id}"${classification_id && row.classification_id==classification_id ? ' selected' : ''}>`
+            + `${row.classification_name}</option>`;
+  });
+  list += '</select>';
+  return list;
+};
+
+exports.buildNav = async () => {
+  const data = await navModel.getClassifications(); // e.g. same as above
+  let nav = '<ul>';
+  data.rows.forEach((row) => {
+    nav += `<li><a href="/inv/class/${row.classification_id}">${row.classification_name}</a></li>`;
+  });
+  nav += '</ul>';
+  return nav;
+};
 
 
 

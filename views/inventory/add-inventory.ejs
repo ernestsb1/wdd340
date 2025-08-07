@@ -1,6 +1,7 @@
 <h1>Add Vehicle</h1>
 <% if (message) { %><p class="flash"><%= message %></p><% } %>
-<% if (errors) { errors.forEach(e=>{ %><p class="error"><%= e.msg %></p><% }) } %>
+<% if (errors) { errors.forEach(e => { %><p class="error"><%= e.msg %></p><% }) } %>
+
 <form method="POST" action="/inv/vehicle/add" novalidate>
   <%= classList %>
   <label>Make:</label>
@@ -10,9 +11,16 @@
   <label>Year:</label>
   <input name="inv_year" value="<%= formData.inv_year || '' %>" required type="number">
   <label>Description:</label>
-  <textarea name="inv_description" required><%= formData.inv_description||'' %></textarea>
+  <textarea name="inv_description" required><%= formData.inv_description || '' %></textarea>
   <label>Price:</label>
   <input name="inv_price" value="<%= formData.inv_price || '' %>" required type="number" step="0.01">
-  <!-- image paths optionally -->
+  <label>Miles:</label>
+  <input name="inv_miles" value="<%= formData.inv_miles || '' %>" required type="number">
+  <label>Color:</label>
+  <input name="inv_color" value="<%= formData.inv_color || '' %>" required>
+  <label>Image Path:</label>
+  <input name="inv_image" value="<%= formData.inv_image || '' %>" required>
+  <label>Thumbnail Path:</label>
+  <input name="inv_thumbnail" value="<%= formData.inv_thumbnail || '' %>" required>
   <button type="submit">Add Vehicle</button>
 </form>

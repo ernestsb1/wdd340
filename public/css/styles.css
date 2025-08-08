@@ -618,3 +618,130 @@ h1 {
 }
 
 
+
+  form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #32CD32;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #212121; /* Very dark gray - near black for text */
+  }
+.flash {
+  background-color: #d1e7dd;   /* Soft green background */
+  color: #0f5132;              /* Dark green text */
+  border: 1px solid #badbcc;   /* Slightly darker border */
+  padding: 12px 20px;
+  margin: 1rem 0;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(15, 81, 50, 0.15);
+}
+
+  .hr {
+    text-align: center;
+    color: #003366; /* Dark blue - good contrast */
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #003366;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.25rem;
+    border: 2px solid #004080; /* Strong blue border */
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #212121;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #0059b3; /* lighter blue on focus */
+    outline: none;
+    box-shadow: 0 0 3px #0059b3;
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  button[type="submit"] {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #0059b3; /* Strong blue */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    background-color: #003d80; /* Darker blue on hover/focus */
+  }
+
+ 
+
+  /* Error messages */
+  .error {
+    width: 400px;
+    height: auto;
+    background-color: #f8d7da; /* Light red */
+    border: 1px solid #842029; /* Dark red */
+    color: #842029;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Select dropdown styling */
+  select {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #0059b3 50%),
+      linear-gradient(135deg, #0059b3 50%, transparent 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 25px) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+  }
+
+  #inv_make, #inv_model, #inv_color, #inv_image, #inv_thumbnail {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.25rem;
+    border: 2px solid #004080; /* Strong blue border */
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #212121;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+  }
+  

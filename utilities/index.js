@@ -117,7 +117,7 @@ Util.handleErrors = handleErrors;
 
 
 
-exports.buildClassificationList = async function (classification_id = null) {
+Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications();
   let list = `<select name="classification_id" id="classificationList" required>
       <option value=''>Choose a Classification</option>`;
@@ -129,7 +129,7 @@ exports.buildClassificationList = async function (classification_id = null) {
   return list;
 };
 
-exports.buildNav = async () => {
+Util.buildNav = async () => {
   const data = await navModel.getClassifications(); // e.g. same as above
   let nav = '<ul>';
   data.rows.forEach((row) => {

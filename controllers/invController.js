@@ -43,15 +43,26 @@ invCont.buildInventoryDetail = async function (req, res, next) {
 };
 
 
-invCont.buildManagementView = async (req, res) => {
-  const nav = await utilities.getNav();
-  res.render("inventory/management", {
-    title: "Inventory Management",
-    nav,
-    message: req.flash("message"),
-    error: req.flash("error"),
-  });
-};
+
+async function buildInventoryManagement(req, res) {
+  try {
+    const nav = await utilities.getNav(); // if you’re using a dynamic nav
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      nav,
+      inventoryList: null, // <-- Pass the list
+      message: req.flash('message') // <-- flash messages
+    });
+  } catch (error) {
+    console.error('Error building inventory management view:', error);
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      message: 'Error loading inventory data.'
+    });
+  }
+}
+
+
 
 /* Add classification GET */
 invCont.buildAddClassificationView = async (req, res) => {
@@ -59,26 +70,34 @@ invCont.buildAddClassificationView = async (req, res) => {
   res.render("inventory/add-classification", {
     title: "Add Classification",
     nav,
-    message: req.flash("message"),
-    errors: req.flash("errors"),
+    message: req.flash("message"), // usually returns an array
+    errors: req.flash("errors"),   // usually returns an array
   });
 };
 
 /* Add classification POST */
 invCont.addClassification = async (req, res) => {
   const { classification_name } = req.body;
-  const result = await invModel.addClassification(classification_name);
-  if (result.rowCount === 1) {
-    req.flash("message", "Classification added successfully.");
-    return res.redirect("/inv"); // Go back to management
-  } else {
-    req.flash("errors", [{ msg: "Failed to add classification." }]);
+  try {
+    const result = await invModel.addClassification(classification_name);
+
+    if (result.rowCount === 1) {
+      req.flash("message", "Classification added successfully.");
+      return res.redirect("/inv"); // Go back to inventory management
+    } else {
+      req.flash("errors", [{ msg: "Failed to add classification." }]);
+      return res.redirect("/inv/classification/add");
+    }
+  } catch (error) {
+    console.error("Error adding classification:", error);
+    req.flash("errors", [{ msg: "An error occurred while adding classification." }]);
     return res.redirect("/inv/classification/add");
   }
 };
 
+
 /* Add vehicle GET */
-invCont.buildAddInventoryView = async (req, res) => {
+invCont.buildAddInventory = async (req, res) => {
   const nav = await utilities.getNav();
   const classList = await utilities.buildClassificationList();
   const formData = req.flash("formData")[0] || {};
@@ -107,5 +126,6 @@ invCont.addInventory = async (req, res) => {
 };
 
 
+invCont.buildInventoryManagement = buildInventoryManagement;
 
 module.exports = invCont;

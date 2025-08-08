@@ -107,14 +107,15 @@ validate.classificationName = (req, res, next) => {
   const name = req.body.classification_name;
   const errors = [];
   if (!name || !/^[A-Za-z0-9]+$/.test(name)) {
-    errors.push('Classification name must contain only letters and digits (no spaces/special).');
+    errors.push({ msg: 'Classification name must contain only letters and digits (no spaces/special).' });
   }
   if (errors.length) {
     req.flash('errors', errors);
-    return res.redirect('/inv/add-classification');
+    return res.redirect('/inv/classification/add');  // <- corrected URL here
   }
   next();
 };
+
 
 validate.inventoryFields = (req, res, next) => {
   const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body;
@@ -137,12 +138,10 @@ validate.inventoryFields = (req, res, next) => {
   if (errors.length) {
     req.flash('errors', errors);
     req.flash('body', req.body);
-    return res.redirect('/inv/add-inventory');
-  }
+ return res.redirect('/inv/vehicle/add');
+ }
   next();
 };
-
-
 
 
 module.exports = validate;

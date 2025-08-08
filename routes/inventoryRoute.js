@@ -10,16 +10,16 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 
 //  Inventory detail view
 router.get("/detail/:invId", invController.buildInventoryDetail);
+router.get('/', invController.buildInventoryManagement);
 
 // Management view
-router.get("/", asyncHandler(invController.buildManagementView));
 
 // Add classification
 router.get("/classification/add", asyncHandler(invController.buildAddClassificationView));
 router.post("/classification/add", validate.classificationName, asyncHandler(invController.addClassification));
 
 // Add vehicle
-router.get("/vehicle/add", asyncHandler(invController.buildAddInventoryView));
+router.get("/vehicle/add", asyncHandler(invController.buildAddInventory));
 router.post("/vehicle/add", validate.inventoryFields, asyncHandler(invController.addInventory));
 
 module.exports = router;

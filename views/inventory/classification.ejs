@@ -1,12 +1,20 @@
-<!-- Content Heading Section: Displays the main heading for the page -->
 <% if (title) { %>
-    <h1>
-        <%= title %>
-    </h1>
-    <% } else { res.redirect('/') } %>
+  <h1><%= title %></h1>
+<% } %>
 
-        <!-- Message Section: Placeholder for future messages (currently commented out) -->
-        <%# messages() %>
+<!-- Display flash messages -->
+<% if (message && message.length > 0) { %>
+  <% message.forEach(msg => { %>
+    <p class="flash"><%= msg %></p>
+  <% }) %>
+<% } %>
 
-            <!-- Inventory Items Display Section: Shows the inventory grid -->
-            <%- grid %>
+<!-- Display error messages -->
+<% if (errors && errors.length > 0) { %>
+  <% errors.forEach(error => { %>
+    <p class="error"><%= error.msg %></p>
+  <% }) %>
+<% } %>
+
+<!-- Render inventory grid -->
+<%- grid %>

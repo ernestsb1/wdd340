@@ -7,6 +7,7 @@ const utilities = require("../utilities/")  // Adjust path if needed
 // Existing GET routes...
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+
 // Process the registration data
 router.post(
     "/register",

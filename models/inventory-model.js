@@ -38,18 +38,24 @@ async function getVehicleById(invId) {
     throw new Error("Vehicle not found");
   }
 }
+async function getAllInventory() {
+  return await pool.query('SELECT * FROM inventory ORDER BY inv_make');
+}
 
-exports.addClassification = async (classification_name) => {
+
+
+async function addClassification(classification_name) {
   const sql = 'INSERT INTO classification (classification_name) VALUES ($1)';
   return pool.query(sql, [classification_name]);
-};
+}
 
-exports.getClassifications = async () => {
+
+async function getClassifications() {
   const sql = 'SELECT classification_id, classification_name FROM classification ORDER BY classification_name';
   return pool.query(sql);
-};
+}
 
-exports.addInventoryItem = async (data) => {
+async function addInventoryItem(data) {
   const sql = `INSERT INTO inventory
     (inv_make, inv_model, inv_year, inv_description,
      inv_price, inv_miles, inv_color, classification_id,
@@ -62,7 +68,7 @@ exports.addInventoryItem = async (data) => {
     data.inv_image, data.inv_thumbnail
   ];
   return pool.query(sql, params);
-};
+}
 
 
 
@@ -72,5 +78,9 @@ exports.addInventoryItem = async (data) => {
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
-  getVehicleById
+  getVehicleById,
+  getAllInventory,
+  addClassification,
+  addInventoryItem
 };
+

@@ -7,10 +7,12 @@
  * ======================= */
 const express = require("express");
 const session = require("express-session");
+const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 const pool = require('./database/');
 require("dotenv").config();
+const utilities = require("./utilities");
 
 /* =======================
  *  Custom Module Imports
@@ -53,6 +55,9 @@ app.use(function (req, res, next) {
 // Body parser middleware to handle form submissions and JSON
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+app.use(utilities.checkJWTToken);
+
 
 // Static files middleware
 app.use(express.static("public")); // Serve static assets
@@ -89,9 +94,10 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
-
 // Global error handler
 app.use(errorHandler);
+
+
 
 /* =======================
  *  Start Server

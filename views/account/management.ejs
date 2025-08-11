@@ -1,0 +1,24 @@
+<main>
+    <h1>Account Management</h1>
+
+    <% if (messages && messages.notice) { %>
+        <div class="notice">
+            <%= messages.notice %>
+        </div>
+        <% } %>
+
+            <% if (errors && errors.length> 0) { %>
+                <div class="errors">
+                    <ul>
+                        <% errors.forEach(function(error) { %>
+                            <li>
+                                <%= error.msg %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+                <% } %>
+
+                    <p>You're logged in.</p>
+</main>
+

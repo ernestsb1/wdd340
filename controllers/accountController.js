@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const bcrypt = require("bcryptjs");
 const utilities = require("../utilities");
 const accountModel = require("../models/account-model");
@@ -79,18 +81,91 @@ async function registerAccount(req, res) {
   }
 }
 
+
 /* ****************************************
- *  Process Login
- * *************************************** */
+ *  Process login request
+ * ************************************ */
 async function accountLogin(req, res) {
   const nav = await utilities.getNav();
-  res.render("account/login", {
-    title: "Login",
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+  }
+
+  try {
+    const passwordMatch = await bcrypt.compare(account_password, accountData.account_password);
+
+    if (passwordMatch) {
+      delete accountData.account_password;
+
+      console.log("🔐 Password matched. Creating token...");
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1h"
+      });
+
+      console.log("✅ JWT Token:", accessToken);
+      console.log("🌍 NODE_ENV =", process.env.NODE_ENV);
+
+      // Set the cookie
+      const cookieOptions = {
+        httpOnly: true,
+        maxAge: 3600000
+      };
+
+      if (process.env.NODE_ENV !== 'development') {
+        cookieOptions.secure = true; // only on HTTPS
+      }
+
+      res.cookie("jwt", accessToken, cookieOptions);
+      console.log("🍪 JWT cookie set.");
+
+      return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Please check your credentials and try again.");
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
+    }
+  } catch (error) {
+    console.error("❌ Login error:", error);
+    req.flash("notice", "Something went wrong. Please try again.");
+    return res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+  }
+}
+
+
+/* ****************************************
+ *  Build Account Management View
+ * ************************************ */
+async function buildAccountManagement(req, res) {
+  const nav = await utilities.getNav();
+  res.render("account/management", {
+    title: "Account Management",
     nav,
-    messages: req.flash(),
-    errors: res.locals.errors || null,
-    account_email: req.body.account_email || ""
+    errors: null,
+    messages: req.flash()
   });
 }
 
-module.exports = {buildLogin, buildRegister, registerAccount, accountLogin};
+
+
+
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement };

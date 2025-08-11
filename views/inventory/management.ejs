@@ -8,6 +8,39 @@
   <li><a href="/inv/classification/add">Add New Classification</a></li>
   <li><a href="/inv/vehicle/add">Add New Vehicle</a></li>
 </ul>
+<main>
+<h2>Manage Inventory</h2>
+<p>Select a classification from the list to see the items belonging to that classification.</p>
+
+<select id="classificationList">
+  <%- classificationSelect %>
+</select>
+
+
+
+<table id="inventoryDisplay"></table>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+
+    <% if (messages && messages.notice) { %>
+        <div class="notice">
+            <%= messages.notice %>
+        </div>
+        <% } %>
+
+            <% if (errors && errors.length> 0) { %>
+                <div class="errors">
+                    <ul>
+                        <% errors.forEach(function(error) { %>
+                            <li>
+                                <%= error.msg %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+                <% } %>
+
+                    <p>You're logged in.</p>
+
 
 <ul>
   <% if (inventoryList && inventoryList.length > 0) { %>
@@ -19,3 +52,7 @@
   <% } else { %>
   <% } %>
 </ul>
+</main>
+
+
+<script src="../../js/inventory.js"></script>

@@ -143,5 +143,29 @@ validate.inventoryFields = (req, res, next) => {
   next();
 };
 
+// copy of your add-validation
+validate.checkUpdateData = (req, res, next) => {
+  const { inv_id, inv_make, inv_model, inv_year, inv_description } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const classificationSelect = utilities.buildClassificationList(req.body.classification_id);
+    res.render("inventory/edit-inventory", {
+      title: `Edit ${inv_make} ${inv_model}`,
+      nav: res.locals.nav,
+      classificationSelect,
+      errors: errors.array(),
+      inv_id, inv_make, inv_model, inv_year, inv_description,
+      inv_image: req.body.inv_image,
+      inv_thumbnail: req.body.inv_thumbnail,
+      inv_price: req.body.inv_price,
+      inv_miles: req.body.inv_miles,
+      inv_color: req.body.inv_color,
+      classification_id: req.body.classification_id
+    });
+    return;
+  }
+  next();
+}
 
 module.exports = validate;

@@ -7,13 +7,16 @@ const utilities = require("../utilities/")  // Adjust path if needed
 // Existing GET routes...
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+// Deliver the account management view
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+
 
 // Process the registration data
 router.post(
-    "/register",
-    regValidate.registrationRules(),
-    regValidate.checkRegData,
-    utilities.handleErrors(accountController.registerAccount)
+  "/register",
+  regValidate.registrationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
 );
 
 // Process the login attempt (temporary placeholder)

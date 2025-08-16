@@ -617,108 +617,137 @@ h1 {
   margin-bottom: 5px;
 }
 
-
-
-  form {
-    max-width: 600px;
-    margin: 2rem auto;
-    background-color: #32CD32;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: #212121; /* Very dark gray - near black for text */
-  }
-.flash {
-  background-color: #d1e7dd;   /* Soft green background */
-  color: #0f5132;              /* Dark green text */
-  border: 1px solid #badbcc;   /* Slightly darker border */
-  padding: 12px 20px;
-  margin: 1rem 0;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(15, 81, 50, 0.15);
+kform {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
 }
 
-  .hr {
-    text-align: center;
-    color: #003366; /* Dark blue - good contrast */
-    margin-bottom: 1.5rem;
-  }
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
 
-  label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 600;
-    color: #003366;
-  }
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  input[type="text"],
-  input[type="number"],
-  input[type="url"],
-  textarea,
-  select {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    margin-top: 0.25rem;
-    border: 2px solid #004080; /* Strong blue border */
-    border-radius: 5px;
-    font-size: 1rem;
-    font-family: inherit;
-    color: #212121;
-    background-color: #ffffff;
-    transition: border-color 0.3s ease;
-  }
+button[type="submit"] {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #0055aa;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
-  input:focus,
-  textarea:focus,
-  select:focus {
-    border-color: #0059b3; /* lighter blue on focus */
-    outline: none;
-    box-shadow: 0 0 3px #0059b3;
-  }
+button[type="submit"]:hover {
+  background-color: #004080;
+}
 
-  textarea {
-    min-height: 80px;
-    resize: vertical;
-  }
+.notice,
+.errors,
+.alert,
+.flash {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+}
 
-  button[type="submit"] {
-    margin-top: 2rem;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
-    background-color: #0059b3; /* Strong blue */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+.notice {
+  background-color: #e0f7fa;
+  color: #006064;
+}
 
-  button[type="submit"]:hover,
-  button[type="submit"]:focus {
-    background-color: #003d80; /* Darker blue on hover/focus */
-  }
+.alert {
+  background-color: #ffebee;
+  color: #c62828;
+}
 
- 
+.errors {
+  background-color: #fff3e0;
+  color: #e65100;
+}
 
-  /* Error messages */
-  .error {
-    width: 400px;
-    height: auto;
-    background-color: #f8d7da; /* Light red */
-    border: 1px solid #842029; /* Dark red */
-    color: #842029;
-    padding: 0.75rem 1rem;
-    border-radius: 5px;
-    margin-bottom: 0.75rem;
-  }
+.errors ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
 
-  /* Select dropdown styling */
-  select {
+.edit {
+  background-color: #f0f8ff;
+  color: #0055aa;
+  width: 400px;
+  height: auto;
+  padding-left: 10px;
+}
+
+
+
+/* Flash message */
+.flash {
+  background-color: #e6f7ff;
+  color: #007bff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Error messages */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Input and textarea styling */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Label styling */
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+
+
+select {
     appearance: none;
     background-image:
       linear-gradient(45deg, transparent 50%, #0059b3 50%),
@@ -760,34 +789,4 @@ form {
 
 .form-group {
   margin-bottom: 1.2rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-}
-
-button {
-  padding: 0.7rem 1.5rem;
-  background-color: #007acc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #005fa3;
-}
-
-.edit-title {
-  font-size: 1rem;
 }

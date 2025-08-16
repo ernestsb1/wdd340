@@ -13,11 +13,12 @@ invCont.buildByClassificationId = async function (req, res, next) {
     const grid = await utilities.buildClassificationGrid(data);
     const nav = await utilities.getNav();
     const className = data[0].classification_name;
+
     res.render("./inventory/classification", {
       title: `${className} vehicles`,
       nav,
       grid,
-      message: req.flash("message"),
+      message: req.flash("notice"),
       errors: req.flash("errors"),
     });
   } catch (err) {
@@ -73,6 +74,7 @@ invCont.buildInventoryManagement = async function (req, res) {
   }
 };
 
+
 /* ***************************
  *  Add Classification GET
  * ************************** */
@@ -81,7 +83,7 @@ invCont.buildAddClassificationView = async (req, res) => {
   res.render("inventory/add-classification", {
     title: "Add Classification",
     nav,
-    message: req.flash("message"),
+    message: req.flash("notice"),
     errors: req.flash("errors"),
   });
 };
@@ -120,7 +122,7 @@ invCont.buildAddInventory = async (req, res) => {
     title: "Add Vehicle",
     nav,
     classList,
-    message: req.flash("message"),
+    message: req.flash("notice"),
     errors: req.flash("errors"),
     formData,
   });
@@ -152,14 +154,20 @@ invCont.addInventory = async (req, res) => {
  *  Return Inventory by Classification As JSON
  * ************************** */
 invCont.getInventoryJSON = async (req, res, next) => {
-  const classification_id = parseInt(req.params.classification_id);
-  const invData = await invModel.getInventoryByClassificationId(classification_id);
-  if (invData.length > 0 && invData[0].inv_id) {
-    return res.json(invData);
-  } else {
-    next(new Error("No data returned"));
+  try {
+    const classification_id = parseInt(req.params.classification_id);
+    const invData = await invModel.getInventoryByClassificationId(classification_id);
+
+    if (invData.length > 0 && invData[0].inv_id) {
+      return res.json(invData);
+    } else {
+      next(new Error("No data returned"));
+    }
+  } catch (error) {
+    next(error);
   }
 };
+
 
 /* ***************************
  *  Build edit inventory view
@@ -183,8 +191,8 @@ invCont.editInventoryView = async function (req, res, next) {
       nav,
       classificationSelect,
       errors: req.flash("errors"),
-  message: req.flash("message"),
-  ...itemData,
+      message: req.flash("notice"),
+      ...itemData,
     });
   } catch (error) {
     console.error("Error building edit-inventory view:", error);
@@ -192,6 +200,9 @@ invCont.editInventoryView = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Update Inventory
+ * ************************** */
 invCont.updateInventory = async function (req, res) {
   const {
     inv_id,
@@ -236,11 +247,53 @@ invCont.updateInventory = async function (req, res) {
   }
 };
 
+/* ***************************
+ *  Build Delete Inventory View
+ * ************************** */
+invCont.buildDeleteView = async function (req, res) {
+  const inv_id = parseInt(req.params.inv_id);
+  const nav = await utilities.getNav();
+  const itemData = await invModel.getInventoryById(inv_id);
 
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+  res.render("inventory/delete-inventory", {
+    title: `Delete ${itemName}`,
+    nav,
+    errors: req.flash("errors"),
+    message: req.flash("notice"),
+    inv: itemData,
+    itemName,
+  });
+};
 
 /* ***************************
- *  Update Inventory Controller
+ *  Process Delete Inventory Item
  * ************************** */
+invCont.deleteInventoryItem = async function (req, res) {
+  const inv_id = parseInt(req.body.inv_id);
+
+  try {
+    const deleteResult = await invModel.deleteInventoryItem(inv_id);
+
+    if (deleteResult.rowCount > 0) {
+      req.flash("notice", "The inventory item was successfully deleted.");
+      res.redirect("/inv");
+    } else {
+      req.flash("notice", "Delete failed. Please try again.");
+      res.redirect(`/inv/delete/${inv_id}`);
+    }
+  } catch (err) {
+    console.error("Delete failed:", err);
+    req.flash("notice", "An error occurred while deleting.");
+    res.redirect(`/inv/delete/${inv_id}`);
+ 
+
+  }
+};
+
+
+
 
 
 module.exports = invCont;

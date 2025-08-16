@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+
+  <%- include('../partials/messages') %>
+
+  <!-- Ensure nav is passed correctly -->
+<% if (messages && messages.notice) { %>
+  <div class="notice">
+    <%= messages.notice %>
+  </div>
+<% } %>
+
+<% if (errors && errors.length > 0) { %>
+  <div class="errors">
+    <ul>
+      <% errors.forEach(function(error) { %>
+        <li>
+          <%= error.msg %>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+  <!-- Check if there's an error and display it -->
+  <% if (error) { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
+  <div class="edit">
+<h2>Edit Account</h2>
+  <form action="/account/update" method="POST">
+    <label for="account_firstname">First Name</label>
+    <input type="text" id="account_firstname" name="account_firstname" value="<%= accountData.account_firstname %>" required>
+
+    <label for="account_lastname">Last Name</label>
+    <input type="text" id="account_lastname" name="account_lastname" value="<%= accountData.account_lastname %>" required>
+
+    <label for="account_email">Email</label>
+    <input type="email" id="account_email" name="account_email" value="<%= accountData.account_email %>" required>
+
+<input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+    <button type="submit">Update Account</button>
+  </form>
+
+
+  
+<!-- Change Password Form -->
+<h2>Update Password</h2>
+<form action="/account/update-password" method="POST">
+<label for="account_password">New Password</label>
+  <input type="password" id="account_password" name="account_password" required>
+  <p>Password must be at least 12 characters and contain uppercase, lowercase, number, and special character.</p>
+  <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+   <button type="submit">Change Password</button>
+</form>
+  </div>
+</body>
+</html>

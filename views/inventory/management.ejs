@@ -1,3 +1,5 @@
+  <link rel="stylesheet" href="/css/styles.css">
+
 <h1>Inventory Management</h1>
 
 <% if (message) { %>
@@ -13,7 +15,8 @@
 <p>Select a classification from the list to see the items belonging to that classification.</p>
 
 <select id="classificationList">
-  <%- classificationSelect %>
+  <option value="">Select a Classification</option>
+  <%- classificationSelect %> <!-- The select options from controller -->
 </select>
 
 
@@ -38,10 +41,6 @@
                     </ul>
                 </div>
                 <% } %>
-
-                    <p>You're logged in.</p>
-
-
 <ul>
   <% if (inventoryList && inventoryList.length > 0) { %>
     <% inventoryList.forEach(item => { %>
@@ -52,7 +51,11 @@
   <% } else { %>
   <% } %>
 </ul>
+                    <p>You're logged in.</p>
+
+
+
 </main>
 
-
 <script src="../../js/inventory.js"></script>
+

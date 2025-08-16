@@ -1,17 +1,37 @@
-const regValidate = require('../utilities/account-validation')
-const express = require("express")
-const router = express.Router()
-const accountController = require("../controllers/accountController")
-const utilities = require("../utilities/")  // Adjust path if needed
+const express = require("express");
+const router = express.Router();
+const { check } = require("express-validator");
+const invController = require('../controllers/invController'); // Adjust the path according to your file structure
 
-// Existing GET routes...
-router.get("/login", utilities.handleErrors(accountController.buildLogin))
-router.get("/register", utilities.handleErrors(accountController.buildRegister))
-// Deliver the account management view
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+const regValidate = require('../utilities/account-validation');
+const accountController = require("../controllers/accountController");
+const utilities = require("../utilities");
+const { checkLogin } = utilities; // Extracted for clarity
+
+const validateAccountUpdate = regValidate.updateAccountRules();
+const validatePassword = regValidate.passwordUpdateRules();
+
+router.get("/update/:account_id", accountController.showAccountUpdateView)
+// Post route for handling form submission with the account ID
+router.post("/update", validateAccountUpdate, accountController.accountUpdate)
+ 
+router.post("/update-password", validatePassword, accountController.accountPasswordUpdate)
+// Password update routes
+router.get("/update-password", checkLogin, utilities.handleErrors(accountController.showPasswordUpdateForm));
+
+// Post route for updating the password
+// inventoryRoutes.js
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
 
-// Process the registration data
+// Auth-related views
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
+router.get("/register", utilities.handleErrors(accountController.buildRegister));
+
+// Account management dashboard
+router.get("/", checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
+
+// Registration handling
 router.post(
   "/register",
   regValidate.registrationRules(),
@@ -19,12 +39,19 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
-// Process the login attempt (temporary placeholder)
+// Login handling
 router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin) // <- Use your actual controller function here
-)
+  utilities.handleErrors(accountController.accountLogin)
+);
 
-module.exports = router
+// Logout route (clears JWT cookie)
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt");
+  req.flash("notice", "You are logged out.");
+  res.redirect("/");
+});
+
+module.exports = router;

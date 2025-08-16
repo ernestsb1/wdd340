@@ -1,24 +1,37 @@
-<main>
-    <h1>Account Management</h1>
+<h1>Account Management</h1>
 
-    <% if (messages && messages.notice) { %>
-        <div class="notice">
-            <%= messages.notice %>
-        </div>
-        <% } %>
+  <!-- Display notice message -->
+  <% if (messages && messages.notice) { %>
+    <div class="notice">
+      <%= messages.notice %>
+    </div>
+  <% } %>
 
-            <% if (errors && errors.length> 0) { %>
-                <div class="errors">
-                    <ul>
-                        <% errors.forEach(function(error) { %>
-                            <li>
-                                <%= error.msg %>
-                            </li>
-                            <% }) %>
-                    </ul>
-                </div>
-                <% } %>
+  <!-- Display errors if any -->
+  <% if (errors && errors.length > 0) { %>
+    <div class="errors">
+      <ul>
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
 
-                    <p>You're logged in.</p>
-</main>
+  <!-- Display the account holder's name -->
+  <h2>Welcome <%= accountData.account_firstname %></h2>
 
+  <!-- Link to edit account information -->
+  <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
+
+  <!-- Display inventory management links for admin or employee -->
+  <% if (accountData.account_type === 'admin' || accountData.account_type === 'employee') { %>
+    <h3>Inventory Management</h3>
+    <p><a href="/inv">Go to Inventory Management</a></p>
+  <% } %>
+
+  <!-- Confirmation message for logged-in status -->
+  <p>You're logged in.</p>
+
+</body>
+</html>

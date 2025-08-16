@@ -13,12 +13,11 @@
 <% } %>
 
 <h1 class="edit-title">Edit <%= inv_make %> <%= inv_model %></h1>
-
 <form method="post" action="/inv/update/" id="updateForm">
   <div class="form-group">
     <label for="classification_id">Classification</label>
     <select name="classification_id" id="classification_id" required>
-      <%- classificationSelect %>
+      <%- classificationSelect %>  <!-- Dynamically generated select list -->
     </select>
   </div>
 
@@ -71,7 +70,8 @@
   <input type="hidden" name="inv_id" value="<%= inv_id %>">
 
   <!-- Submit button is disabled initially for JS-controlled activation -->
-  <button type="submit" disabled>Update Vehicle</button>
+  <button type="submit" id="submitButton" disabled>Update Vehicle</button>
 </form>
 
 <script src="../../js/inv-update.js"></script>
+

@@ -1,7 +1,9 @@
 const accountModel = require("../models/account-model");
 const utilities = require(".");
 const { body, validationResult } = require("express-validator");
+const { check } = require("express-validator");
 
+// Define the route for account update
 const validate = {};
 
 /* **********************************
@@ -13,7 +15,6 @@ validate.registrationRules = () => {
       .trim()
       .escape()
       .notEmpty()
-      .isLength({ min: 1 })
       .withMessage("Please provide a first name."),
 
     body("account_lastname")
@@ -45,7 +46,7 @@ validate.registrationRules = () => {
         minNumbers: 1,
         minSymbols: 1,
       })
-      .withMessage("Password does not meet requirements."),
+      .withMessage("Password must be at least 12 characters long and contain uppercase, lowercase, numbers, and symbols."),
   ];
 };
 
@@ -102,48 +103,60 @@ validate.checkLoginData = async (req, res, next) => {
   next();
 };
 
-
+/* **********************************
+ *  Classification Name Validation
+ * ********************************* */
 validate.classificationName = (req, res, next) => {
   const name = req.body.classification_name;
   const errors = [];
   if (!name || !/^[A-Za-z0-9]+$/.test(name)) {
-    errors.push({ msg: 'Classification name must contain only letters and digits (no spaces/special).' });
+    errors.push({ msg: 'Classification name must contain only letters and digits (no spaces/special characters).' });
   }
   if (errors.length) {
     req.flash('errors', errors);
-    return res.redirect('/inv/classification/add');  // <- corrected URL here
+    return res.redirect('/inv/classification/add');
   }
   next();
 };
 
-
+/* **********************************
+ *  Inventory Fields Validation
+ * ********************************* */
 validate.inventoryFields = (req, res, next) => {
   const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body;
   const errors = [];
+
   if (!inv_make || !inv_model || !inv_description || !inv_color) {
-    errors.push('All text fields required.');
+    errors.push('All text fields (Make, Model, Description, Color) are required.');
   }
+
   if (!inv_year || inv_year < 1900 || inv_year > new Date().getFullYear()) {
-    errors.push('Year must be realistic.');
+    errors.push('Year must be a realistic value (between 1900 and current year).');
   }
+
   if (!inv_price || inv_price <= 0) {
-    errors.push('Price must be positive.');
+    errors.push('Price must be a positive value.');
   }
+
   if (!inv_miles || inv_miles < 0) {
     errors.push('Miles cannot be negative.');
   }
+
   if (!classification_id) {
     errors.push('You must select a classification.');
   }
+
   if (errors.length) {
     req.flash('errors', errors);
-    req.flash('body', req.body);
- return res.redirect('/inv/vehicle/add');
- }
+    req.flash('body', req.body);  // Ensure the form data is reloaded
+    return res.redirect('/inv/vehicle/add');
+  }
   next();
 };
 
-// copy of your add-validation
+/* **********************************
+ *  Update Inventory Data Validation
+ * ********************************* */
 validate.checkUpdateData = (req, res, next) => {
   const { inv_id, inv_make, inv_model, inv_year, inv_description } = req.body;
   const errors = validationResult(req);
@@ -166,6 +179,63 @@ validate.checkUpdateData = (req, res, next) => {
     return;
   }
   next();
-}
+};
+
+/* **********************************
+ *  Update Account Info Validation Rules
+ * ********************************* */
+validate.updateAccountRules = () => {
+  return [
+    body("account_firstname").trim().notEmpty().withMessage("First name is required."),
+    body("account_lastname").trim().notEmpty().withMessage("Last name is required."),
+    body("account_email").isEmail().normalizeEmail().withMessage("A valid email is required."),
+  ];
+};
+
+/* **********************************
+ *  Password Update Validation Rules
+ * ********************************* */
+validate.passwordUpdateRules = () => {
+  return [
+    body("account_password")
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password must be at least 12 characters long and contain uppercase, lowercase, numbers, and symbols."),
+  ];
+};
+
+/* **********************************
+ *  Server-Side Email Uniqueness Check
+ * ********************************* */
+validate.validateEmail = async (email) => {
+  const sql = 'SELECT * FROM account WHERE email = $1';
+  const result = await pool.query(sql, [email]);
+  if (result.rows.length > 0) throw new Error('Email already in use');
+};
+
+
+
+validate.validateAccountUpdate = [
+  check('account_firstname')
+    .notEmpty().withMessage('First name is required')
+    .isLength({ max: 50 }).withMessage('First name cannot exceed 50 characters'),
+  
+  check('account_lastname')
+    .notEmpty().withMessage('Last name is required')
+    .isLength({ max: 50 }).withMessage('Last name cannot exceed 50 characters'),
+  
+  check('account_email')
+    .isEmail().withMessage('Valid email is required')
+    .normalizeEmail(),
+
+  // Add more validation rules as necessary...
+];
+
+
 
 module.exports = validate;

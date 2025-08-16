@@ -1,0 +1,83 @@
+<h1 class="hr">Add Vehicle</h1>
+
+<% if (message) { %>
+  <p class="flash"><%= message %></p>
+<% } %>
+
+<% if (errors && errors.length) { %>
+  <% errors.forEach((e) => { %>
+    <p class="error"><%= typeof e === 'string' ? e : e.msg %></p>
+  <% }) %>
+<% } %>
+
+<form method="POST" action="/inv/vehicle/add" novalidate>
+<label for="classificationList">Classification</label>
+<select name="classification_id" id="classificationList" required>
+  <%- classList %>
+</select>
+
+  <!-- Make Field -->
+  <label for="inv_make">Make:</label>
+  <input id="inv_make" name="inv_make" value="<%= formData.inv_make || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_make')) { %>
+    <p class="error">Please enter a valid make.</p>
+  <% } %>
+
+  <!-- Model Field -->
+  <label for="inv_model">Model:</label>
+  <input id="inv_model" name="inv_model" value="<%= formData.inv_model || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_model')) { %>
+    <p class="error">Please enter a valid model.</p>
+  <% } %>
+
+  <!-- Year Field -->
+  <label for="inv_year">Year:</label>
+  <input id="inv_year" name="inv_year" type="number" value="<%= formData.inv_year || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_year')) { %>
+    <p class="error">Please enter a valid year.</p>
+  <% } %>
+
+  <!-- Description Field -->
+  <label for="inv_description">Description:</label>
+  <textarea id="inv_description" name="inv_description" required><%= formData.inv_description || '' %></textarea>
+  <% if (errors && errors.some(e => e.param === 'inv_description')) { %>
+    <p class="error">Please enter a description.</p>
+  <% } %>
+
+  <!-- Price Field -->
+  <label for="inv_price">Price:</label>
+  <input id="inv_price" name="inv_price" type="number" step="0.01" value="<%= formData.inv_price || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_price')) { %>
+    <p class="error">Please enter a valid price.</p>
+  <% } %>
+
+  <!-- Miles Field -->
+  <label for="inv_miles">Miles:</label>
+  <input id="inv_miles" name="inv_miles" type="number" value="<%= formData.inv_miles || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_miles')) { %>
+    <p class="error">Please enter valid miles.</p>
+  <% } %>
+
+  <!-- Color Field -->
+  <label for="inv_color">Color:</label>
+  <input id="inv_color" name="inv_color" value="<%= formData.inv_color || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_color')) { %>
+    <p class="error">Please enter a valid color.</p>
+  <% } %>
+
+  <!-- Image Field -->
+  <label for="inv_image">Image Path:</label>
+  <input id="inv_image" name="inv_image" value="<%= formData.inv_image || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_image')) { %>
+    <p class="error">Please provide a valid image path.</p>
+  <% } %>
+
+  <!-- Thumbnail Field -->
+  <label for="inv_thumbnail">Thumbnail Path:</label>
+  <input id="inv_thumbnail" name="inv_thumbnail" value="<%= formData.inv_thumbnail || '' %>" required>
+  <% if (errors && errors.some(e => e.param === 'inv_thumbnail')) { %>
+    <p class="error">Please provide a valid thumbnail path.</p>
+  <% } %>
+
+  <button type="submit">Add Vehicle</button>
+</form>

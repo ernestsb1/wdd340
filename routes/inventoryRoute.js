@@ -1,42 +1,53 @@
 // Needed Resources 
 const express = require("express");
-const router = new express.Router();
+const router = express.Router();
+
+// Controller Imports
+
 const invController = require("../controllers/invController");
+const accountController = require("../controllers/accountController");
+
+
+// Validation Imports
 const validate = require("../utilities/account-validation");
 const utilities = require("../utilities");
 const asyncHandler = require("express-async-handler");
 
-//  Classification view route
-router.get("/type/:classificationId", invController.buildByClassificationId);
+// Middleware Imports
+const { checkEmployee, checkLogin } = require("../utilities/index");
 
-//  Inventory detail view
-router.get("/detail/:invId", invController.buildInventoryDetail);
-router.get('/', invController.buildInventoryManagement);
+// 1. Classification View Route
+// This route allows you to view inventory items by classification
+router.get("/type/:classificationId", asyncHandler(invController.buildByClassificationId));
 
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+// 2. Inventory Detail View
+// This route renders the detail page for a specific inventory item
+router.get("/detail/:invId", asyncHandler(invController.buildInventoryDetail));
 
+// 3. Inventory Management Page
+router.get('/inv/management', checkEmployee, asyncHandler(invController.buildInventoryManagement));
 
-// Management view
+// Route to manage inventory items, restricted to employees/admins
+router.get("/", checkEmployee, asyncHandler(invController.buildInventoryManagement));
 
-// Add classification
-router.get("/classification/add", asyncHandler(invController.buildAddClassificationView));
-router.post("/classification/add", validate.classificationName, asyncHandler(invController.addClassification));
-
-// Add vehicle
-router.get("/vehicle/add", asyncHandler(invController.buildAddInventory));
-router.post("/vehicle/add", validate.inventoryFields, asyncHandler(invController.addInventory));
-
-// Route to build edit inventory view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
-
-router.post("/edit/:update", validate.inventoryFields, asyncHandler(invController.updateInventory));
+router.get('/getInventory/:classification_id', utilities.handleErrors(invController.getInventoryJSON));
 
 
-// GET - Show delete confirmation page
-router.get("/delete/:inv_id", invController.buildDeleteView);
 
-// POST - Handle delete request
-router.post("/delete", invController.deleteInventoryItem);
+router.get("/classification/add", checkEmployee, asyncHandler(invController.buildAddClassificationView));
+router.post("/classification/add", checkEmployee, validate.classificationName, asyncHandler(invController.addClassification));
+
+
+router.get("/vehicle/add", checkEmployee, asyncHandler(invController.buildAddInventory));
+router.post("/vehicle/add", checkEmployee, validate.inventoryFields, asyncHandler(invController.addInventory));
+
+
+router.get("/edit/:inv_id", checkEmployee, asyncHandler(invController.editInventoryView));
+router.post("/edit/:inv_id", checkEmployee, validate.inventoryFields, asyncHandler(invController.updateInventory));
+
+
+router.get("/delete/:inv_id", checkEmployee, asyncHandler(invController.buildDeleteView));
+router.post("/delete", checkEmployee, asyncHandler(invController.deleteInventoryItem));
 
 
 module.exports = router;

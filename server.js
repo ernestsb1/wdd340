@@ -7,10 +7,9 @@
  * ======================= */
 const express = require("express");
 const session = require("express-session");
-const cookieParser = require("cookie-parser")
-const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const expressLayouts = require("express-ejs-layouts");
-const pool = require('./database/');
+const {pool} = require('./database/');
 require("dotenv").config();
 const utilities = require("./utilities");
 
@@ -18,7 +17,6 @@ const utilities = require("./utilities");
  *  Custom Module Imports
  * ======================= */
 const accountRoute = require("./routes/accountRoute");
-const testRoutes = require('./routes/testRoutes');
 const errorHandler = require("./utilities/errorHandler");
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
@@ -32,6 +30,27 @@ const app = express();
 /* =======================
  *  Middleware
  * ======================= */
+app.get('/someRoute', (req, res, next) => {
+  const err = new Error('This is a custom error');
+  err.status = 400;  // Optional, you can set any custom status code
+  next(err); // Pass the error to the next middleware
+});
+
+// Global nav injection middleware
+app.use((req, res, next) => {
+  res.locals.nav = utilities.getNav();
+  next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log(`Request received: ${req.method} ${req.url}`);
+  next();
+});
+
+
 
 // Session middleware with Postgres session store
 app.use(session({
@@ -52,12 +71,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Body parser middleware to handle form submissions and JSON
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(utilities.checkJWTToken);
-
 
 // Static files middleware
 app.use(express.static("public")); // Serve static assets
@@ -82,7 +97,6 @@ app.get("/", baseController.buildHome);
 // Other routes
 app.use("/inv", inventoryRoute);
 app.use("/", staticRoutes);
-app.use('/', testRoutes);
 
 /* =======================
  *  Error Handling
@@ -96,8 +110,6 @@ app.use((req, res, next) => {
 });
 // Global error handler
 app.use(errorHandler);
-
-
 
 /* =======================
  *  Start Server

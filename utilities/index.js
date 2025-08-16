@@ -1,11 +1,15 @@
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const invModel = require("../models/inventory-model");
+const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+
 const Util = {};
 
-/* ************************
- * Constructs the nav HTML unordered list
- ************************** */
+/* ================================
+ *         VIEW HELPERS
+ * ================================ */
+
+/** Navigation bar generator */
 Util.getNav = async function () {
   let data = await invModel.getClassifications();
   let list = "<ul>";
@@ -80,9 +84,8 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
-/* **************************************
- * Build the vehicle detail HTML
- *************************************** */
+
+/** Build vehicle detail page */
 Util.buildVehicleDetail = function (vehicle) {
   const formattedPrice = Number(vehicle.inv_price).toLocaleString("en-US", {
     style: "currency",
@@ -107,74 +110,141 @@ Util.buildVehicleDetail = function (vehicle) {
   `;
 };
 
-// Error-handling wrapper for async controller functions
-function handleErrors(fn) {
+/** Build classification dropdown */
+Util.buildClassificationList = async function (selectedId = null) {
+  const data = await invModel.getClassifications()
+  let options = '<option value="">Choose a Classification</option>'
+
+  data.rows.forEach(row => {
+    options += `<option value="${row.classification_id}"${selectedId == row.classification_id ? " selected" : ""}>${row.classification_name}</option>`
+  })
+
+  return options
+}
+
+/* ================================
+ *        GENERAL UTILITIES
+ * ================================ */
+
+/** Error-handling wrapper for controllers */
+Util.handleErrors = function (fn) {
   return function (req, res, next) {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
-}
-Util.handleErrors = handleErrors;
-
-
-
-Util.buildClassificationList = async function buildClassificationList(selectedId = "") {
-  const data = await invModel.getClassifications()
-  let list = '<option value="">Choose a Classification</option>'
-
-  data.rows.forEach(row => {
-    list += `<option value="${row.classification_id}"${selectedId == row.classification_id ? " selected" : ""}>${row.classification_name}</option>`
-  })
-
-  return list
-}
-
-
-Util.buildNav = async () => {
-  const data = await navModel.getClassifications(); // e.g. same as above
-  let nav = '<ul>';
-  data.rows.forEach((row) => {
-    nav += `<li><a href="/inv/class/${row.classification_id}">${row.classification_name}</a></li>`;
-  });
-  nav += '</ul>';
-  return nav;
 };
 
+/* ================================
+ *       AUTHENTICATION MIDDLEWARE
+ * ================================ */
 
-/* ****************************************
-* Middleware to check token validity
-**************************************** */
+/** Validates JWT if present and sets login state */
 Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-    jwt.verify(
-      req.cookies.jwt,
-      process.env.ACCESS_TOKEN_SECRET,
-      function (err, accountData) {
-        if (err) {
-          req.flash("Please log in")
-          res.clearCookie("jwt")
-          return res.redirect("/account/login")
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        req.flash("notice", "Please log in");
+        res.clearCookie("jwt");
+        return res.redirect("/account/login");
+      }
+      res.locals.accountData = decoded;
+      res.locals.loggedin = true;
+      next();
+    });
+  } else {
+    next();
+  }
+};
+
+/** Role-based access control */
+Util.checkRole = (roles = []) => {
+  return (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (token) {
+      jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+        if (err || !roles.includes(decoded.account_type)) {
+          return res.redirect('/login?error=not-authorized');
         }
-        res.locals.accountData = accountData
-        res.locals.loggedin = 1
-        next()
-      })
-  } else {
-    next()
-  }
-}
+        res.locals.accountData = decoded;
+        next();
+      });
+    } else {
+      return res.redirect('/login?error=not-authorized');
+    }
+  };
+};
 
-/* ****************************************
- *  Check Login
- * ************************************ */
+/** Ensures user is logged in */
 Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+  const token = req.cookies.jwt;
+  if (!token) {
+    req.flash("notice", "You must be logged in to access this page.");
+    return res.redirect("/account/login");
   }
-}
 
-// Export the entire Util object
+  try {
+    const decoded = jwt.verify(token, TOKEN_SECRET);
+    res.locals.accountData = decoded;
+    next();
+  } catch (err) {
+    req.flash("notice", "Session expired. Please log in again.");
+    return res.redirect("/account/login");
+  }
+};
+
+/** Ensures user is employee or admin */
+Util.checkEmployee = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (!token) {
+    req.flash("notice", "Not authorized.");
+    return res.redirect("/account/login");
+  }
+
+  try {
+    const decoded = jwt.verify(token, TOKEN_SECRET);
+    if (decoded.account_type === "employee" || decoded.account_type === "admin") {
+      res.locals.accountData = decoded;
+      return next();
+    } else {
+      req.flash("notice", "You are not authorized to view this page.");
+      return res.redirect("/account/login");
+    }
+  } catch (err) {
+    req.flash("notice", "Authorization failed. Please log in again.");
+    return res.redirect("/account/login");
+  }
+};
+
+/** Helper to make `res.locals.loggedin` available in templates */
+Util.checkLoginStatus = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, TOKEN_SECRET);
+      res.locals.loggedin = true;
+      res.locals.firstname = decoded.account_firstname;
+    } catch {
+      res.locals.loggedin = false;
+    }
+  } else {
+    res.locals.loggedin = false;
+  }
+  next();
+};
+
+/** Check if user has specific account type access */
+Util.checkAccountType = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, TOKEN_SECRET);
+      if (decoded.account_type === "admin" || decoded.account_type === "employee") {
+        res.locals.accountData = decoded;
+        return next();
+      }
+    } catch {}
+  }
+  return res.status(403).render("account/login", { message: "Access denied" });
+};
+
 module.exports = Util;
-

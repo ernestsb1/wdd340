@@ -202,7 +202,7 @@ Util.checkEmployee = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, TOKEN_SECRET);
-    if (decoded.account_type === "employee" || decoded.account_type === "admin") {
+    if (decoded.account_type === "Employee" || decoded.account_type === "Admin") {
       res.locals.accountData = decoded;
       return next();
     } else {
@@ -238,7 +238,7 @@ Util.checkAccountType = (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, TOKEN_SECRET);
-      if (decoded.account_type === "admin" || decoded.account_type === "employee") {
+      if (decoded.account_type === "Admin" || decoded.account_type === "Employee") {
         res.locals.accountData = decoded;
         return next();
       }

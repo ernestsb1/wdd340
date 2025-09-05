@@ -1,8 +1,8 @@
 CREATE TYPE public.account_type AS ENUM
-    ('client', 'employee', 'admin');
+    ('Client', 'Employee', 'Admin');
 
 ALTER TYPE public.account_type
-    OWNER TO wdd340don;
+    OWNER TO cse340sb;
 
     --Table struction for table 'classification'
 CREATE TABLE public.classification (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.account
     account_lastname character varying NOT NULL,
     account_email character varying NOT NULL,
     account_password character varying NOT NULL,
-    account_type account_type NOT NULL DEFAULT 'client'::account_type,
+    account_type account_type NOT NULL DEFAULT 'Client'::account_type,
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 

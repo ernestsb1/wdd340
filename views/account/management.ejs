@@ -25,7 +25,7 @@
   <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
 
   <!-- Display inventory management links for admin or employee -->
-  <% if (accountData.account_type === 'admin' || accountData.account_type === 'employee') { %>
+  <% if (accountData.account_type === 'Admin' || accountData.account_type === 'Employee') { %>
     <h3>Inventory Management</h3>
     <p><a href="/inv">Go to Inventory Management</a></p>
   <% } %>

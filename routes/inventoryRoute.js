@@ -50,4 +50,5 @@ router.get("/delete/:inv_id", checkEmployee, asyncHandler(invController.buildDel
 router.post("/delete", checkEmployee, asyncHandler(invController.deleteInventoryItem));
 
 
+
 module.exports = router;

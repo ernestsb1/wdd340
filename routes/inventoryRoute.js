@@ -6,6 +6,7 @@ const router = new express.Router();
 
 const invController = require("../controllers/invController");
 const accountController = require("../controllers/accountController");
+const errorController = require("../controllers/errorController");
 
 
 // Validation Imports
@@ -18,11 +19,15 @@ const { checkEmployee, checkLogin } = require("../utilities/index");
 
 // 1. Classification View Route
 // This route allows you to view inventory items by classification
-router.get("/type/:classificationId", asyncHandler(invController.buildByClassificationId));
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 
 // 2. Inventory Detail View
 // This route renders the detail page for a specific inventory item
 router.get("/detail/:invId", asyncHandler(invController.buildInventoryDetail));
+
+router.get("/detail/:invId", utilities.handleErrors(invController.buildInventoryDetail));
+
+router.get("/cause-error", errorController.triggerError);
 
 // 3. Inventory Management Page
 router.get('/inv/management', checkEmployee, asyncHandler(invController.buildInventoryManagement));

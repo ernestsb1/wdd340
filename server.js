@@ -17,7 +17,6 @@ const utilities = require("./utilities");
  *  Custom Module Imports
  * ======================= */
 const accountRoute = require("./routes/accountRoute");
-const errorHandler = require("./utilities/errorHandler");
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
@@ -117,6 +116,7 @@ app.use(async (err, req, res, next) => {
   res.render("errors/error", {
     title: err.status || 'Server Error',
     message: err.message,
+    status: err.status || 500,  
     nav
   })
 })

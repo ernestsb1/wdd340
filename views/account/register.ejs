@@ -53,14 +53,7 @@
    <label for="account_password">Password</label>
   <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
     <label><input type="checkbox" id="togglePassword"> Show Password</label>
-<script>
-  const toggle = document.getElementById("togglePassword");
-  const passwordInput = document.getElementById("account_password");
 
-  toggle.addEventListener("change", function () {
-    passwordInput.type = this.checked ? "text" : "password";
-  });
-</script>
                                     <ul class="password-rules">
                                         <li>At least 12 characters</li>
                                         <li>At least 1 capital letter</li>
@@ -74,6 +67,15 @@
                                 </div>
 
     </main>
+
+    <script>
+  const toggle = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("account_password");
+
+  toggle.addEventListener("change", function () {
+    passwordInput.type = this.checked ? "text" : "password";
+  });
+</script>
 </body>
 
 </html>

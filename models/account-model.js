@@ -120,11 +120,16 @@ async function getAccountByEmail(account_email) {
 }
 
 async function checkExistingEmail(account_email) {
-  const result = await pool.query(
-    'SELECT account_id FROM account WHERE account_email = $1',
-    [account_email]
-  );
-  return result.rows[0] || null;
+  try {
+    const result = await pool.query(
+      'SELECT account_id FROM account WHERE account_email = $1',
+      [account_email]
+    );
+    return result.rowCount > 0; // true if exists, false if not
+  } catch (error) {
+    console.error("Database error in checkExistingEmail:", error);
+    throw new Error("Error checking if email exists");
+  }
 }
 
 

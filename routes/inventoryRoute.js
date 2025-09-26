@@ -30,29 +30,31 @@ router.get("/detail/:invId", utilities.handleErrors(invController.buildInventory
 router.get("/cause-error", errorController.triggerError);
 
 // 3. Inventory Management Page
-router.get('/inv/management', checkEmployee, asyncHandler(invController.buildInventoryManagement));
+router.get('/inv/management',  asyncHandler(invController.buildInventoryManagement));
+
+
 
 // Route to manage inventory items, restricted to employees/admins
-router.get("/", checkEmployee, asyncHandler(invController.buildInventoryManagement));
+router.get("/", asyncHandler(invController.buildInventoryManagement));
 
 router.get('/getInventory/:classification_id', utilities.handleErrors(invController.getInventoryJSON));
 
 
 
-router.get("/classification/add", checkEmployee, asyncHandler(invController.buildAddClassificationView));
-router.post("/classification/add", checkEmployee, validate.classificationName, asyncHandler(invController.addClassification));
+router.get("/classification/add",  asyncHandler(invController.buildAddClassificationView));
+router.post("/classification/add", validate.classificationName, asyncHandler(invController.addClassification));
 
 
-router.get("/vehicle/add", checkEmployee, asyncHandler(invController.buildAddInventory));
-router.post("/vehicle/add", checkEmployee, validate.inventoryFields, asyncHandler(invController.addInventory));
+router.get("/vehicle/add",  asyncHandler(invController.buildAddInventory));
+router.post("/vehicle/add", validate.inventoryFields, asyncHandler(invController.addInventory));
 
 
-router.get("/edit/:inv_id", checkEmployee, asyncHandler(invController.editInventoryView));
-router.post("/edit/:inv_id", checkEmployee, validate.inventoryFields, asyncHandler(invController.updateInventory));
+router.get("/edit/:inv_id",  asyncHandler(invController.editInventoryView));
+router.post("/edit/:inv_id",  validate.inventoryFields, asyncHandler(invController.updateInventory));
 
 
-router.get("/delete/:inv_id", checkEmployee, asyncHandler(invController.buildDeleteView));
-router.post("/delete", checkEmployee, asyncHandler(invController.deleteInventoryItem));
+router.get("/delete/:inv_id",  asyncHandler(invController.buildDeleteView));
+router.post("/delete",  asyncHandler(invController.deleteInventoryItem));
 
 
 

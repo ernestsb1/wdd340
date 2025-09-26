@@ -115,16 +115,17 @@ invCont.addClassification = async (req, res) => {
  * ************************** */
 invCont.buildAddInventory = async (req, res) => {
   const nav = await utilities.getNav();
-  const classList = await utilities.buildClassificationList();
   const formData = req.flash("formData")[0] || {};
+  const classList = await utilities.buildClassificationList(formData.classification_id);
 
   res.render("inventory/add-inventory", {
     title: "Add Vehicle",
     nav,
     classList,
+    formData,
     message: req.flash("notice"),
     errors: req.flash("errors"),
-    formData,
+    
   });
 };
 

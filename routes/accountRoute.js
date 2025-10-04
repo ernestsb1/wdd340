@@ -15,11 +15,16 @@ router.get("/update/:account_id", accountController.showAccountUpdateView)
 // Post route for handling form submission with the account ID
 router.post("/update", validateAccountUpdate, accountController.accountUpdate)
  
-router.post("/update-password", validatePassword, accountController.accountPasswordUpdate)
 // Password update routes
 router.get("/update-password", checkLogin, utilities.handleErrors(accountController.showPasswordUpdateForm));
 
 // Post route for updating the password
+router.post(
+  "/update-password",
+  regValidate.passwordUpdateRules(),  // Express-validator rules
+  utilities.handleErrors(accountController.accountPasswordUpdate)
+);
+
 // inventoryRoutes.js
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
@@ -29,7 +34,7 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
 // Account management dashboard
-router.get("/", checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
+router.get("/management", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
 // Registration handling
 router.post(

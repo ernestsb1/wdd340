@@ -5,7 +5,6 @@ const router = new express.Router();
 // Controller Imports
 
 const invController = require("../controllers/invController");
-const accountController = require("../controllers/accountController");
 const errorController = require("../controllers/errorController");
 
 
@@ -32,7 +31,8 @@ router.get("/cause-error", errorController.triggerError);
 // 3. Inventory Management Page
 router.get('/inv/management',  asyncHandler(invController.buildInventoryManagement));
 
-
+// Add vehicle route
+router.post("/add", validate.inventoryFields, validate.checkInventoryData, invController.addInventory);
 
 // Route to manage inventory items, restricted to employees/admins
 router.get("/", asyncHandler(invController.buildInventoryManagement));
@@ -52,6 +52,7 @@ router.post("/vehicle/add", validate.inventoryFields, asyncHandler(invController
 router.get("/edit/:inv_id",  asyncHandler(invController.editInventoryView));
 router.post("/edit/:inv_id",  validate.inventoryFields, asyncHandler(invController.updateInventory));
 
+router.post("/update/", asyncHandler(invController.updateInventory));
 
 router.get("/delete/:inv_id",  asyncHandler(invController.buildDeleteView));
 router.post("/delete",  asyncHandler(invController.deleteInventoryItem));

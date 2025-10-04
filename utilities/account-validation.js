@@ -62,7 +62,7 @@ validate.loginRules = () => {
 
     body("account_password")
       .trim()
-      .isLength({ min: 12 })
+      .notEmpty()
       .withMessage("Password must be at least 12 characters long."),
   ];
 };
@@ -155,6 +155,35 @@ validate.inventoryFields = (req, res, next) => {
 };
 
 /* **********************************
+ *  Check Add Inventory Validation Results
+ * ********************************* */
+validate.checkInventoryData = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const classificationSelect = await utilities.buildClassificationList(req.body.classification_id);
+    return res.status(400).render("inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationSelect,
+      errors: errors.array(),
+      inv_make: req.body.inv_make,
+      inv_model: req.body.inv_model,
+      inv_year: req.body.inv_year,
+      inv_description: req.body.inv_description,
+      inv_image: req.body.inv_image,
+      inv_thumbnail: req.body.inv_thumbnail,
+      inv_price: req.body.inv_price,
+      inv_miles: req.body.inv_miles,
+      inv_color: req.body.inv_color,
+      classification_id: req.body.classification_id
+    });
+  }
+  next();
+};
+
+
+/* **********************************
  *  Update Inventory Data Validation
  * ********************************* */
 validate.checkUpdateData = (req, res, next) => {
@@ -189,6 +218,8 @@ validate.updateAccountRules = () => {
     body("account_firstname").trim().notEmpty().withMessage("First name is required."),
     body("account_lastname").trim().notEmpty().withMessage("Last name is required."),
     body("account_email").isEmail().normalizeEmail().withMessage("A valid email is required."),
+    body("account_id").notEmpty().withMessage("Account ID is required."),
+
   ];
 };
 
@@ -219,22 +250,6 @@ validate.validateEmail = async (email) => {
 };
 
 
-
-validate.validateAccountUpdate = [
-  check('account_firstname')
-    .notEmpty().withMessage('First name is required')
-    .isLength({ max: 50 }).withMessage('First name cannot exceed 50 characters'),
-  
-  check('account_lastname')
-    .notEmpty().withMessage('Last name is required')
-    .isLength({ max: 50 }).withMessage('Last name cannot exceed 50 characters'),
-  
-  check('account_email')
-    .isEmail().withMessage('Valid email is required')
-    .normalizeEmail(),
-
-  // Add more validation rules as necessary...
-];
 
 
 

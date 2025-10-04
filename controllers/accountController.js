@@ -105,7 +105,7 @@ async function accountLogin(req, res) {
       }
 
       res.cookie("jwt", accessToken, cookieOptions);
-      return res.redirect("/account/");
+      return res.redirect("/account/management");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
       return res.status(400).render("account/login", {
@@ -137,6 +137,7 @@ async function buildAccountManagement(req, res) {
     nav,
     errors: null,
     messages: req.flash('notice')
+    
   });
 }
 
@@ -152,9 +153,6 @@ async function showAccountUpdateView(req, res) {
     const account = await accountModel.getAccountById(accountId);
     const nav = await utilities.getNav();
 
-    // Optional: define errors and error variables (could come from validation or other logic)
-    const errors = []; // or retrieve from validationResult(req).array()
-    const error = null; // or get from somewhere else
 res.render("account/update", {
   title: "Update Account",
   nav,
@@ -164,11 +162,14 @@ res.render("account/update", {
   errors: [],
   error: null
 });
-
-    
+  
   } catch (err) {
     console.error("Error fetching account by ID:", err);
-    res.status(500).send("Error fetching account data");
+   res.status(500).render('errors/error', { 
+  status: 500,
+  message: 'An error occurred while updating account information.' 
+});
+
   }
 }
 
@@ -192,8 +193,8 @@ async function accountUpdate(req, res) {
 
     // Check if the email is already used
     const existingAccount = await accountModel.getAccountByEmail(account_email);
-    if (existingAccount && existingAccount.account_id !== account_id) {
-      return res.render('account/update', {
+if (existingAccount && String(existingAccount.account_id) !== String(account_id)) {
+    return res.render('account/update', {
         title: 'Edit Account Information',
         nav: await utilities.getNav(),
         errors: null,
@@ -204,14 +205,17 @@ async function accountUpdate(req, res) {
     }
 
     // Update account information in the database
-    await accountModel.updateAccountInfo(account_id, account_firstname, account_lastname, account_email);
+    await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
 
     req.flash("notice", "Account successfully updated.");
-    res.redirect('/account/management');
+    res.redirect('/account/login');
   } catch (error) {
     console.error(error);
     req.flash("notice", "An error occurred while updating account information.");
-    res.status(500).render('error', { message: 'An error occurred while updating account information.' });
+  res.status(500).render('errors/error', { 
+      status: 500,
+      message: 'An error occurred while updating account information.' 
+    });
   }
 }
 
@@ -220,12 +224,14 @@ async function accountUpdate(req, res) {
  * ************************************ */
 async function accountPasswordUpdate(req, res) {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
-    return res.render('account/update', {
-      title: 'Edit Account Information',
+    req.flash("notice", "Please fix the errors below.");
+    return res.render("account/update-password", {
+      title: "Update Password",
       nav: await utilities.getNav(),
       errors: errors.array(),
-      messages: req.flash('notice'),
+      messages: req.flash("notice"),
       accountData: req.body
     });
   }
@@ -233,20 +239,24 @@ async function accountPasswordUpdate(req, res) {
   try {
     const { account_id, account_password } = req.body;
 
-    // Hash the new password
+    // ✅ Correct hashing of password
     const hashedPassword = await bcrypt.hash(account_password, 10);
 
-    // Update password in the database
+    // ✅ Send hashed password to the model
     await accountModel.updatePassword(account_id, hashedPassword);
 
-    req.flash("notice", "Password successfully updated.");
-    res.redirect('/account/management');
+    req.flash("notice", "Password successfully updated. Please log in again.");
+    res.redirect("/account/login");
   } catch (error) {
-    console.error(error);
-    req.flash("notice", "An error occurred while changing password.");
-    res.status(500).render('error', { message: 'An error occurred while changing password.' });
+    console.error("Password update error:", error);
+    req.flash("notice", "An error occurred while changing your password.");
+    res.status(500).render("errors/error", {
+      status: 500,
+      message: "An error occurred while changing your password."
+    });
   }
 }
+
 
 /* ****************************************
  * Logout

@@ -255,16 +255,41 @@ invCont.buildDeleteView = async function (req, res) {
   const inv_id = parseInt(req.params.inv_id);
   const nav = await utilities.getNav();
   const itemData = await invModel.getInventoryById(inv_id);
-
+  const classificationSelect = await utilities.buildClassificationList(itemData.classification_id);
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+   // ✅ Destructure values
+  const {
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  } = itemData;
 
   res.render("inventory/delete-inventory", {
     title: `Delete ${itemName}`,
     nav,
     errors: req.flash("errors"),
     message: req.flash("notice"),
-    inv: itemData,
-    itemName,
+    inv_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id,
+      classificationSelect  // << Add this line here
+
   });
 };
 

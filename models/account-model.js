@@ -19,7 +19,7 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       INSERT INTO public.account 
         (account_firstname, account_lastname, account_email, account_password, account_type)
       VALUES
-        ($1, $2, $3, $4, 'client')  -- make sure 'client' matches your enum exactly
+        ($1, $2, $3, $4, 'Client')  -- make sure 'Client' matches your enum exactly
       RETURNING *`;
     const result = await pool.query(sql, [account_firstname, account_lastname, account_email, account_password]);
     return result.rows[0];  // Return the newly created account
@@ -68,37 +68,31 @@ async function getAccountById(id) {
   }
 }
 
-async function updateAccount(id, first, last, email) {
-  const sql = `UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4`;
+async function updateAccount(account_id, account_firstname, account_lastname, account_email) {
+  const sql = `UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4`;
   try {
-    const result = await pool.query(sql, [first, last, email, id]);
+    const result = await pool.query(sql, [account_firstname, account_lastname, account_email, account_id]);
     return result.rowCount; // Return the number of rows affected (1 if successful)
   } catch (error) {
     console.error("Error updating account:", error);
     throw new Error("Error updating account. Please try again later.");
   }
-}
+};
 
 // Function to update the password
-async function updatePassword(account_id, newPassword) {
-  const hashedPassword = await bcrypt.hash(newPassword, 10);  // 10 is the salt rounds
-
-  try {
-    const result = await pool.query(
-      'UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING account_id',
-      [hashedPassword, account_id]
-    );
-
-    if (result.rowCount > 0) {
-      return result.rows[0].account_id;
-    } else {
-      throw new Error('Account not found');
-    }
-  } catch (error) {
-    console.error('Error updating password:', error);
-    throw new Error('Error updating password. Please try again later.');
-  }
+// accountModel.js
+async function updatePassword(account_id, hashedPassword) {
+  const sql = `
+    UPDATE account 
+    SET account_password = $1 
+    WHERE account_id = $2 
+    RETURNING account_id
+  `;
+  const result = await pool.query(sql, [hashedPassword, account_id]);
+  return result.rows[0];
 }
+
+
 
 
 
@@ -143,19 +137,6 @@ async function getAccountById(accountId) {
     throw new Error("Error fetching account by ID");
   }
 }
-
-async function updateAccount(accountId, account_firstname, account_lastname, account_email) {
-  const sql = `UPDATE account SET first_name = $1, last_name = $2, email = $3 WHERE account_id = $4`;
-  await pool.query(sql, [account_firstname, account_lastname, account_email, accountId]);
-};
-
-async function updatePassword(accountId, newPassword) {
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  const sql = `UPDATE account SET password = $1 WHERE account_id = $2`;
-  await pool.query(sql, [hashedPassword, accountId]);
-};
-
-
 
 
 module.exports = { 

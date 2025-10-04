@@ -12,9 +12,9 @@
   <% }) %>
 <% } %>
 
-<h1 class="edit-title">Delete <%= inv_make %> <%= inv_model %></h1>
+<h1 class="edit-title">Edit <%= inv_make %> <%= inv_model %></h1>
 
-<form method="post" action="/inv/delete/" id="updateForm">
+<form method="post" action="/inv/update/" id="updateForm">
   <div class="form-group">
     <label for="classification_id">Classification</label>
     <select name="classification_id" id="classification_id" required>
@@ -69,7 +69,7 @@
 
  
   <!-- Submit button is disabled initially for JS-controlled activation -->
-  <button type="submit">Delete Vehicle</button>
+  <button type="submit">Update Vehicle</button>
 </form>
 
  <!-- Hidden input to store inventory ID -->

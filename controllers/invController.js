@@ -58,7 +58,9 @@ invCont.buildInventoryManagement = async function (req, res) {
       classificationSelect,
       inventoryList: [],
       message: req.flash("message"),
-      errors: req.flash("errors")
+      errors: req.flash("errors"),
+  accountData: res.locals.accountData // ✅ add this!
+
     });
   } catch (error) {
     console.error("Error loading inventory management view:", error);
@@ -69,10 +71,13 @@ invCont.buildInventoryManagement = async function (req, res) {
       classificationSelect: "",
       inventoryList: [],
       message: "Error loading inventory data.",
-      errors: []
+      errors: [],
+  accountData: res.locals.accountData // ✅ add this!
+
     });
   }
 };
+
 
 
 /* ***************************

@@ -29,8 +29,13 @@ router.get("/detail/:invId", utilities.handleErrors(invController.buildInventory
 router.get("/cause-error", errorController.triggerError);
 
 // 3. Inventory Management Page
-router.get('/inv/management',  asyncHandler(invController.buildInventoryManagement));
+router.get('/management', utilities.checkAccountType, asyncHandler(invController.buildInventoryManagement));
 
+router.get(
+  "/management",
+  utilities.checkRole(["Admin", "Employee"]),
+  invController.buildInventoryManagement
+);
 // Add vehicle route
 router.post("/add", validate.inventoryFields, validate.checkInventoryData, invController.addInventory);
 

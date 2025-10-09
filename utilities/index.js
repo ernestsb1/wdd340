@@ -138,41 +138,62 @@ Util.handleErrors = function (fn) {
  * ================================ */
 
 /** Validates JWT if present and sets login state */
+// JWT verification middleware
 Util.checkJWTToken = (req, res, next) => {
   const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        req.flash("notice", "Please log in");
-        res.clearCookie("jwt");
+  if (!token) {
+    res.locals.loggedin = false;
+    return next();
+  }
+
+  jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      req.flash("notice", "Please log in");
+      res.clearCookie("jwt");
+      return res.redirect("/account/login");
+    }
+    res.locals.accountData = decoded;
+    res.locals.loggedin = true;
+    next();
+  });
+};
+
+// Role-based authorization middleware
+
+
+Util.checkRole = (allowedRoles = []) => {
+  return (req, res, next) => {
+    const token = req.cookies.jwt;
+
+    // If no token, not logged in at all
+    if (!token) {
+      req.flash("notice", "Please log in first.");
+      return res.redirect("/account/login");
+    }
+
+    try {
+      const decoded = jwt.verify(token, TOKEN_SECRET);
+      const userRole = decoded.account_type;
+
+      // If role is not allowed (e.g. Client)
+      if (!allowedRoles.includes(userRole)) {
+        req.flash("notice", "Access denied.");
         return res.redirect("/account/login");
       }
+
+      // Success — store user in locals for views
       res.locals.accountData = decoded;
       res.locals.loggedin = true;
       next();
-    });
-  } else {
-    next();
-  }
-};
-
-/** Role-based access control */
-Util.checkRole = (roles = []) => {
-  return (req, res, next) => {
-    const token = req.cookies.jwt;
-    if (token) {
-      jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
-        if (err || !roles.includes(decoded.account_type)) {
-          return res.redirect('/login?error=not-authorized');
-        }
-        res.locals.accountData = decoded;
-        next();
-      });
-    } else {
-      return res.redirect('/login?error=not-authorized');
+    } catch (err) {
+      console.error("JWT verification failed:", err);
+      req.flash("notice", "Session expired. Please log in again.");
+      res.clearCookie("jwt");
+      return res.redirect("/account/login");
     }
   };
 };
+
 
 /** Ensures user is logged in */
 Util.checkLogin = (req, res, next) => {
@@ -235,16 +256,32 @@ Util.checkLoginStatus = (req, res, next) => {
 /** Check if user has specific account type access */
 Util.checkAccountType = (req, res, next) => {
   const token = req.cookies.jwt;
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, TOKEN_SECRET);
-      if (decoded.account_type === "Admin" || decoded.account_type === "Employee") {
-        res.locals.accountData = decoded;
-        return next();
-      }
-    } catch {}
+
+  if (!token) {
+    req.flash("notice", "Please log in to access this page.");
+    return res.redirect("/account/login");
   }
-  return res.status(403).render("account/login", { message: "Access denied" });
+
+  try {
+    const decoded = jwt.verify(token, TOKEN_SECRET);
+
+    // ✅ Allow only Admin or Employee
+    if (decoded.account_type === "Admin" || decoded.account_type === "Employee") {
+      res.locals.accountData = decoded;
+      res.locals.loggedin = true;
+      return next();
+    }
+
+    // ❌ Block Clients
+    req.flash("notice", "Access denied: Clients cannot access this page.");
+    return res.redirect("/account/login");
+  } catch (err) {
+    console.error("JWT verification failed:", err);
+    req.flash("notice", "Session expired or invalid. Please log in again.");
+    res.clearCookie("jwt");
+    return res.redirect("/account/login");
+  }
 };
+
 
 module.exports = Util;

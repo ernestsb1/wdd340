@@ -91,7 +91,14 @@ async function accountLogin(req, res) {
     if (match) {
       delete accountData.account_password;
 
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+      const accessToken = jwt.sign({
+    account_id: accountData.account_id,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+    account_type: accountData.account_type // ✅ This must be included
+  },
+  process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 3600,
       });
 

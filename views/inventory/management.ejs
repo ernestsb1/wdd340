@@ -1,4 +1,9 @@
   <link rel="stylesheet" href="/css/styles.css">
+<% if (!accountData || (accountData.account_type !== 'Admin' && accountData.account_type !== 'Employee')) { %>
+
+  <h2>Access Denied</h2>
+  <p>You do not have permission to view this page. Please <a href="/account/login">log in</a> as an authorized user.</p>
+<% } else { %>
 
 <h1>Inventory Management</h1>
 
@@ -58,4 +63,5 @@
 </main>
 
 <script src="../../js/inventory.js"></script>
+<% } %>
 

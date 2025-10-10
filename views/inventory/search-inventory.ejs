@@ -1,0 +1,130 @@
+<main class="page-main">
+  <h1 class="page-title">Search Inventory</h1>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="error-messages">
+      <ul>
+        <% errors.forEach(function(error) { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <section class="search-section">
+  <form action="/inv/search" method="GET" class="search-form">
+    <div class="input-wrap">
+      <label for="q" class="visually-hidden">Search Inventory</label>
+      <input
+        type="text"
+        id="q"
+        name="q"
+        placeholder="Search inventory..."
+        value="<%= searchTerm || '' %>"
+        class="search-input"
+      />
+    </div>
+
+    <div class="select-wrap">
+      <label for="classification_id" class="visually-hidden">Classification</label>
+      <select id="classification_id" name="classification_id" class="search-select">
+        <%- classificationSelect %>
+      </select>
+    </div>
+
+    <button type="submit" class="search-btn">Search</button>
+  </form>
+</section>
+
+
+  <section class="search-results">
+    <% if (typeof results !== 'undefined') { %>
+      <% if (results.length > 0) { %>
+        <h2>Found <%= results.length %> result(s)</h2>
+        <ul class="inventory-results">
+          <% results.forEach(item => { %>
+            <li class="inventory-item">
+              <div class="item-head">
+                <strong><%= item.inv_make %> <%= item.inv_model %></strong>
+                <span class="price"> — $<%= item.inv_price %></span>
+              </div>
+              <p class="item-desc"><%= item.inv_description %></p>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="no-results">No results found for "<%= searchTerm %>". Try a different keyword.</p>
+      <% } %>
+    <% } %>
+  </section>
+</main>
+<style>
+
+  /* Page layout */
+.page-main { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+.page-title { text-align: center; font-size: 2.4rem; margin-bottom: 1rem; }
+
+/* Search panel */
+.search-panel { display: flex; justify-content: center; margin-bottom: 2rem; }
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #25c13a; /* adjust green as needed */
+  padding: 1.1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 760px;
+}
+
+/* Inputs */
+.search-input {
+  flex: 1 1 320px;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  border: 0;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Select */
+.search-select {
+  padding: 0.56rem 0.7rem;
+  border-radius: 6px;
+  border: 0;
+  font-size: 1rem;
+  min-width: 170px;
+  box-sizing: border-box;
+}
+
+/* Button */
+.search-btn {
+  padding: 0.56rem 1rem;
+  background-color: #0b5fb3;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.search-btn:hover { background-color: #084f92; }
+
+/* Results */
+.search-results { max-width: 760px; margin: 0 auto; }
+.search-results h2 { margin: 0 0 1rem; font-size: 1.2rem; }
+.inventory-results { list-style: none; padding: 0; margin: 0; }
+.inventory-item { padding: 0.8rem 0; border-bottom: 1px solid #e2e2e2; }
+.item-head { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+.price { color: #333; font-weight: 600; }
+.item-desc { margin: 0.4rem 0 0; color: #333; }
+
+/* small helper to hide visible label text but keep it accessible */
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px,1px,1px,1px); white-space: nowrap; }
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 700px) {
+  .search-form { flex-direction: column; align-items: stretch; gap: 0.6rem; padding: 1rem; }
+  .search-select { width: 100%; min-width: 0; }
+  .search-btn { width: 100%; }
+}

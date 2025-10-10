@@ -323,6 +323,47 @@ invCont.deleteInventoryItem = async function (req, res) {
   }
 };
 
+/* ***************************
+ *  Process searchInventory Item
+ * ************************** */
+
+invCont.searchInventoryResults = async function (req, res) {
+  try {
+    const nav = await utilities.getNav();
+    const searchTerm = req.query.q ? req.query.q.trim() : "";
+    const selectedClassification = req.query.classification_id || "";
+
+    //  Build classification dropdown list (with selected one)
+    const classificationSelect = await utilities.buildClassificationList(selectedClassification);
+
+    //  Perform search using both term + classification
+    const results = await invModel.searchInventory(searchTerm, selectedClassification);
+
+    //  Render page with data
+    res.render("inventory/search-inventory", {
+      title: "Search Inventory",
+      nav,
+      classificationSelect,
+      results,
+      searchTerm,
+      selectedClassification,
+      errors: req.flash("errors"),
+    });
+
+  } catch (error) {
+    console.error("Search error:", error);
+    const nav = await utilities.getNav();
+    res.status(500).render("inventory/search-inventory", {
+      title: "Search Inventory",
+      nav,
+      classificationSelect: await utilities.buildClassificationList(),
+      results: [],
+      searchTerm: "",
+      selectedClassification: "",
+      errors: ["Error fetching search results."],
+    });
+  }
+};
 
 
 

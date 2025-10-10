@@ -44,7 +44,7 @@ router.get("/", asyncHandler(invController.buildInventoryManagement));
 
 router.get('/getInventory/:classification_id', utilities.handleErrors(invController.getInventoryJSON));
 
-
+router.get('/search', utilities.handleErrors(invController.searchInventoryResults));
 
 router.get("/classification/add",  asyncHandler(invController.buildAddClassificationView));
 router.post("/classification/add", validate.classificationName, asyncHandler(invController.addClassification));

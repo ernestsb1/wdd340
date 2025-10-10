@@ -146,6 +146,47 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+
+
+//  Search inventory by keyword and/or classification
+async function searchInventory(searchTerm = "", classificationId = "") {
+  try {
+    // Build base SQL query
+    let sql = `
+      SELECT inv_id, inv_make, inv_model, inv_year, inv_price, inv_description
+      FROM inventory
+      WHERE 1=1
+    `;
+
+    const params = [];
+    let paramIndex = 1;
+
+    //  Add search keyword (case-insensitive)
+    if (searchTerm) {
+      sql += ` AND (inv_make ILIKE $${paramIndex} OR inv_model ILIKE $${paramIndex} OR inv_description ILIKE $${paramIndex})`;
+      params.push(`%${searchTerm}%`);
+      paramIndex++;
+    }
+
+    //  Add classification filter (optional)
+    if (classificationId) {
+      sql += ` AND classification_id = $${paramIndex}`;
+      params.push(classificationId);
+      paramIndex++;
+    }
+
+    //  Sort results
+    sql += " ORDER BY inv_make, inv_model;";
+
+    const result = await pool.query(sql, params);
+    return result.rows;
+  } catch (error) {
+    console.error("Database searchInventory error:", error.message);
+    throw new Error("Database query failed");
+  }
+}
+
+
 /* ***************************
  *  Export all functions
  * ************************** */
@@ -155,6 +196,6 @@ module.exports = {
   getVehicleById,
   getAllInventory,
   addClassification,
-  addInventoryItem, getInventoryById, updateInventory, deleteInventoryItem
+  addInventoryItem, getInventoryById, updateInventory, deleteInventoryItem, searchInventory
 };
 
